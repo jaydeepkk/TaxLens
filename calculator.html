@@ -31,6 +31,9 @@ body{font-family:'DM Sans',sans-serif;color:var(--g900);background:var(--g50);mi
 .logo-text{font-size:15px;font-weight:500;color:var(--g900)}
 .nav-back{font-size:13px;color:var(--g600);text-decoration:none;display:flex;align-items:center;gap:4px}
 .nav-back:hover{color:var(--g900)}
+.nav-cta{font-size:13px;padding:7px 14px;background:var(--t600);color:#fff;border:none;border-radius:7px;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.nav-cta:hover{background:var(--t800)}
+@media(max-width:500px){.nav-back,.nav-tax-rates{display:none!important}}
 
 /* PROGRESS BAR */
 .progress-wrap{background:var(--white);border-bottom:1px solid var(--g100);padding:.875rem 1.5rem}
@@ -270,13 +273,13 @@ footer{padding:1.5rem;border-top:1px solid var(--g200);background:var(--white);m
 <body>
 
 <nav class="nav">
-  <a class="logo" href="/">
+  <a class="logo" href="index.html">
     <div class="logo-mark"><i class="ti ti-zoom-money" aria-hidden="true"></i></div>
     <span class="logo-text">TaxLens</span>
   </a>
-  <a href="index.html" class="nav-back"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back to home</a>
   <div style="display:flex;align-items:center;gap:1rem">
-    <a href="tax-rates.html" style="font-size:13px;color:var(--g600);text-decoration:none">Tax rates</a>
+    <a href="index.html" class="nav-back"><i class="ti ti-arrow-left" aria-hidden="true"></i>Home</a>
+    <a href="tax-rates.html" class="nav-tax-rates" style="font-size:13px;color:var(--g600);text-decoration:none">Tax rates</a>
     <button class="nav-cta" onclick="showModal()">Get full report — £19</button>
   </div>
 </nav>

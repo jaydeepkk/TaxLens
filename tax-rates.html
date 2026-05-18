@@ -61,7 +61,37 @@ body{font-family:'DM Sans',sans-serif;color:var(--g900);background:var(--g50);fo
 .sh-range{width:100%;accent-color:var(--t600);margin-bottom:.5rem}
 .sh-equiv{font-size:12px;color:var(--g400)}
 
-/* MISCONCEPTION BANNER */
+/* LIVE BAND PANEL */
+.live-band{border-radius:var(--r);border:1.5px solid;overflow:hidden;transition:border-color .3s}
+.live-band.inactive{border-color:var(--g200);background:var(--white)}
+.live-band.active{border-color:var(--t200)}
+.live-band.trap-band{border-color:#DDD6FE}
+.live-band-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;cursor:pointer;gap:8px;transition:background .15s}
+.live-band.inactive .live-band-header:hover{background:var(--g50)}
+.live-band-left{display:flex;align-items:center;gap:10px}
+.live-band-swatch{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.live-band-name{font-size:13px;font-weight:500;color:var(--g900)}
+.live-band-range{font-size:11px;color:var(--g400);margin-left:4px}
+.live-band-right{display:flex;align-items:center;gap:10px}
+.live-band-rate{font-size:16px;font-weight:500;font-family:'DM Serif Display',serif}
+.live-band-amount{font-size:12px;font-weight:500;color:var(--t600);background:var(--t50);padding:2px 8px;border-radius:999px;white-space:nowrap}
+.live-band-amount.warn{color:#854D0E;background:#FEF9C3}
+.live-band-amount.danger{color:#991B1B;background:#FEE2E2}
+.live-band-amount.purple{color:#6D28D9;background:#F3E8FF}
+.live-band-chevron{font-size:11px;color:var(--g400);transition:transform .25s;flex-shrink:0}
+.live-band-chevron.open{transform:rotate(180deg)}
+.live-band-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
+.live-band-body.open{max-height:400px}
+.live-band-inner{padding:.75rem 1rem 1rem;border-top:1px solid var(--g100)}
+.live-band-explain{font-size:13px;color:var(--g600);line-height:1.7;margin-bottom:.75rem}
+.live-band-calc{background:var(--g50);border-radius:8px;padding:.75rem 1rem;font-size:13px;line-height:1.8}
+.live-band-calc .calc-row-item{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.live-band-calc .calc-row-item span:first-child{color:var(--g600)}
+.live-band-calc .calc-row-item span:last-child{font-weight:500;color:var(--g900)}
+.live-band-calc .calc-total{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:6px;margin-top:4px;border-top:1px solid var(--g200);font-weight:500}
+/* END LIVE BAND PANEL */
+
+
 .misconception{background:linear-gradient(135deg,#7C3AED 0%,#6D28D9 100%);color:#fff;border-radius:var(--rlg);padding:1.5rem;max-width:860px;margin:1.5rem auto 0}
 .mc-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:1rem}
 .mc-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
@@ -221,25 +251,9 @@ body{font-family:'DM Sans',sans-serif;color:var(--g900);background:var(--g50);fo
   <p>Enter your salary below and watch the exact tax bands that apply to you light up in real time. Every rate explained. Every term defined. And the one thing most people get wrong — finally corrected.</p>
 </div>
 
-<!-- SALARY INPUT -->
-<div class="salary-hero" style="margin:1.5rem auto 0;max-width:860px;margin-left:auto;margin-right:auto;padding-left:1.5rem;padding-right:1.5rem">
-  <div style="max-width:860px;margin:0 auto">
-    <div class="sh-label">Your annual gross salary <span>(before tax — move the slider or type)</span></div>
-    <div class="sh-input-row">
-      <div class="sh-input-wrap">
-        <span class="sh-prefix">£</span>
-        <input type="number" class="sh-input" id="sal-input" value="60000" min="0" max="500000" oninput="onSalInput(this.value)">
-      </div>
-      <div id="sal-band-badge" style="font-size:13px;font-weight:500;padding:6px 14px;border-radius:999px;background:var(--t50);color:var(--t800);white-space:nowrap">Higher rate taxpayer</div>
-    </div>
-    <input type="range" class="sh-range" id="sal-range" min="10000" max="200000" step="500" value="60000" oninput="onSalRange(this.value)">
-    <div class="sh-equiv" id="sal-equiv">£5,000/month · £1,154/week · £231/day</div>
-  </div>
-</div>
-
 <!-- MISCONCEPTION BANNER -->
 <div style="max-width:860px;margin:1.5rem auto 0;padding:0 1.5rem">
-<div class="misconception">
+  <div class="misconception">
   <div class="mc-header">
     <div class="mc-icon">💡</div>
     <div class="mc-title">The biggest tax myth in the UK — and why it costs people money</div>
@@ -256,6 +270,37 @@ body{font-family:'DM Sans',sans-serif;color:var(--g900);background:var(--g50);fo
     <strong>Total tax: £11,432 — an effective rate of just 19.1%, not 40%</strong>
   </div>
 </div>
+</div>
+
+<!-- SALARY INPUT -->
+<div class="salary-hero" style="margin:1.5rem auto 0;max-width:860px;margin-left:auto;margin-right:auto;padding-left:1.5rem;padding-right:1.5rem">
+  <div style="max-width:860px;margin:0 auto">
+    <div class="sh-label">Your annual gross salary <span>(before tax — move the slider or type)</span></div>
+    <div class="sh-input-row">
+      <div class="sh-input-wrap">
+        <span class="sh-prefix">£</span>
+        <input type="number" class="sh-input" id="sal-input" value="60000" min="0" max="500000" oninput="onSalInput(this.value)">
+      </div>
+      <div id="sal-band-badge" style="font-size:13px;font-weight:500;padding:6px 14px;border-radius:999px;background:var(--t50);color:var(--t800);white-space:nowrap">Higher rate taxpayer</div>
+    </div>
+    <input type="range" class="sh-range" id="sal-range" min="10000" max="200000" step="500" value="60000" oninput="onSalRange(this.value)">
+    <div class="sh-equiv" id="sal-equiv">£5,000/month · £1,154/week · £231/day</div>
+
+    <div style="margin-top:1rem">
+      <div style="font-size:12px;color:var(--g600);margin-bottom:.5rem;font-weight:500">Where do you live?</div>
+      <div style="display:flex;background:var(--g100);border-radius:30px;padding:3px;gap:3px;width:fit-content">
+        <button id="hero-england" onclick="setHeroRegion('england',this)" style="font-size:13px;padding:6px 16px;border:none;border-radius:27px;background:var(--white);color:var(--t600);font-weight:500;cursor:pointer;font-family:inherit;box-shadow:0 1px 4px rgba(0,0,0,.1)">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England / Wales</button>
+        <button id="hero-scotland" onclick="setHeroRegion('scotland',this)" style="font-size:13px;padding:6px 16px;border:none;border-radius:27px;background:transparent;color:var(--g600);cursor:pointer;font-family:inherit">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</button>
+      </div>
+      <div style="font-size:11px;color:var(--g400);margin-top:6px">Scotland has different income tax rates set by the Scottish Parliament</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE BAND PANEL — appears right below slider, no scrolling needed -->
+<div style="max-width:860px;margin:.75rem auto 0;padding:0 1.5rem" id="live-band-wrap">
+  <div style="font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--g400);margin-bottom:.5rem">Your applicable tax bands — live</div>
+  <div id="live-bands-container" style="display:flex;flex-direction:column;gap:6px"></div>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -1003,6 +1048,7 @@ function updateAll() {
   else updateScotlandBands(sal, r);
 
   updateBreakdown(sal, r);
+  if (state.region === 'england') updateLiveBands(sal, r);
 }
 
 function updateEnglandBands(sal, r) {
@@ -1235,6 +1281,258 @@ function toggleGlossary(toggle) {
   }
 }
 
+// ── HERO REGION TOGGLE ──
+function setHeroRegion(region, btn) {
+  state.region = region;
+  // Update hero toggle buttons
+  document.getElementById('hero-england').style.background = region === 'england' ? 'var(--white)' : 'transparent';
+  document.getElementById('hero-england').style.color = region === 'england' ? 'var(--t600)' : 'var(--g600)';
+  document.getElementById('hero-england').style.fontWeight = region === 'england' ? '500' : '400';
+  document.getElementById('hero-england').style.boxShadow = region === 'england' ? '0 1px 4px rgba(0,0,0,.1)' : 'none';
+  document.getElementById('hero-scotland').style.background = region === 'scotland' ? 'var(--white)' : 'transparent';
+  document.getElementById('hero-scotland').style.color = region === 'scotland' ? 'var(--t600)' : 'var(--g600)';
+  document.getElementById('hero-scotland').style.fontWeight = region === 'scotland' ? '500' : '400';
+  document.getElementById('hero-scotland').style.boxShadow = region === 'scotland' ? '0 1px 4px rgba(0,0,0,.1)' : 'none';
+  // Sync the band table region pills
+  document.querySelectorAll('.region-pill').forEach(function(p){ p.classList.remove('active'); });
+  var pill = region === 'scotland'
+    ? document.querySelector('.region-pill:nth-child(2)')
+    : document.querySelector('.region-pill:nth-child(1)');
+  if (pill) pill.classList.add('active');
+  // Rebuild live bands for new region
+  buildLiveBands();
+  updateAll();
+}
+
+var SCOTLAND_BANDS = [
+  {
+    id:'lb-s0', color:'#6B7280', rate:'0%', rateNum:0,
+    name:'Personal allowance', range:'£0 to £12,570',
+    from:0, to:12570,
+    explain:'Same as the rest of the UK — the first £12,570 is completely tax-free. Scotland\'s income tax powers are devolved but the personal allowance remains set by Westminster and applies UK-wide.',
+    trapNote:null
+  },
+  {
+    id:'lb-s19', color:'#06B6D4', rate:'19%', rateNum:19,
+    name:'Starter rate', range:'£12,571 to £14,876',
+    from:12570, to:14876,
+    explain:'Scotland\'s unique starter band — 19p of every £1 earned between £12,570 and £14,876. Slightly lower than the rest of the UK basic rate of 20%. Unique to Scottish taxpayers — determined by where you live, not where you work.',
+    trapNote:null
+  },
+  {
+    id:'lb-s20', color:'#3B82F6', rate:'20%', rateNum:20,
+    name:'Basic rate', range:'£14,877 to £26,561',
+    from:14876, to:26561,
+    explain:'20% on earnings between £14,876 and £26,561. A shorter band than England — Scotland uses five bands to create a more graduated system where each rate increase is smaller.',
+    trapNote:null
+  },
+  {
+    id:'lb-s21', color:'#8B5CF6', rate:'21%', rateNum:21,
+    name:'Intermediate rate', range:'£26,562 to £43,662',
+    from:26561, to:43662,
+    explain:'Scotland\'s intermediate band — 21% on earnings between £26,561 and £43,662. Unique to Scotland. Earners here pay 1p more per £1 than equivalent English taxpayers in this range.',
+    trapNote:null
+  },
+  {
+    id:'lb-s42', color:'#F59E0B', rate:'42%', rateNum:42,
+    name:'Higher rate', range:'£43,663 to £75,000',
+    from:43662, to:75000,
+    explain:'42% on earnings between £43,662 and £75,000 — 2p higher than England\'s 40%. The threshold is also lower than England (£43,662 vs £50,270) meaning Scottish earners enter higher rate earlier and pay more overall in this band.',
+    trapNote:null
+  },
+  {
+    id:'lb-s45', color:'#F97316', rate:'45%', rateNum:45,
+    name:'Advanced rate', range:'£75,001 to £125,140',
+    from:75000, to:125140,
+    explain:'Scotland\'s advanced rate — 45% on earnings between £75,000 and £125,140. This kicks in significantly earlier than England\'s equivalent bands. Scottish higher earners pay more tax than English equivalents — the gap grows significantly above £75,000.',
+    trapNote:null
+  },
+  {
+    id:'lb-s48', color:'#EF4444', rate:'48%', rateNum:48,
+    name:'Top rate', range:'Above £125,140',
+    from:125140, to:Infinity,
+    explain:'The highest income tax rate in the UK — 48% on earnings above £125,140. That is 3p higher than the equivalent English additional rate of 45%. Personal allowance has been fully withdrawn at this level.',
+    trapNote:null
+  }
+];
+
+// ── LIVE BAND PANEL ──
+var ENGLAND_BANDS = [
+  {
+    id:'lb-0', color:'#6B7280', rate:'0%', rateNum:0,
+    name:'Personal allowance', range:'£0 to £12,570',
+    from:0, to:12570,
+    explain:'Everyone in the UK gets this amount completely free of income tax. You pay nothing on the first £12,570 you earn. This is your tax-free slice — it applies before any other band is calculated.',
+    trapNote:null
+  },
+  {
+    id:'lb-20', color:'#3B82F6', rate:'20%', rateNum:20,
+    name:'Basic rate', range:'£12,571 to £50,270',
+    from:12570, to:50270,
+    explain:'20p of every £1 earned between £12,570 and £50,270 goes to HMRC as income tax. Only the portion of your income in this band is taxed at 20% — not your entire salary.',
+    trapNote:null
+  },
+  {
+    id:'lb-40', color:'#F59E0B', rate:'40%', rateNum:40,
+    name:'Higher rate', range:'£50,271 to £125,140',
+    from:50270, to:125140,
+    explain:'40p of every £1 earned above £50,270 — but only on the portion above that threshold. Your income below £50,270 is still taxed at 20% (or 0%). Being a "higher rate taxpayer" does not mean paying 40% on everything you earn.',
+    trapNote:null
+  },
+  {
+    id:'lb-trap', color:'#7C3AED', rate:'~60%', rateNum:60,
+    name:'The £100k trap zone', range:'£100,000 to £125,140',
+    from:100000, to:125140,
+    explain:'This is not an official band — it\'s a trap created by the personal allowance taper. Between £100,000 and £125,140, HMRC withdraws your personal allowance at £1 for every £2 earned above £100,000.',
+    trapNote:'Why 60%? Each £2 you earn here costs: 40p tax on the new £2 + 40p tax on the £1 allowance you just lost = 80p on £2 = effective rate of 60%.'
+  },
+  {
+    id:'lb-45', color:'#EF4444', rate:'45%', rateNum:45,
+    name:'Additional rate', range:'Above £125,140',
+    from:125140, to:Infinity,
+    explain:'45p of every £1 earned above £125,140. At this level the personal allowance has been fully withdrawn — every pound is taxed with no tax-free buffer. Only around 1% of UK earners pay any additional rate tax.',
+    trapNote:null
+  }
+];
+
+function buildLiveBands() {
+  var bands = state.region === 'scotland' ? SCOTLAND_BANDS : ENGLAND_BANDS;
+  var container = document.getElementById('live-bands-container');
+  container.innerHTML = '';
+  bands.forEach(function(b) {
+    var div = document.createElement('div');
+    div.className = 'live-band inactive';
+    div.id = b.id;
+    div.innerHTML =
+      '<div class="live-band-header" onclick="toggleLiveBand(\'' + b.id + '\')">' +
+        '<div class="live-band-left">' +
+          '<span class="live-band-swatch" style="background:' + b.color + '"></span>' +
+          '<span class="live-band-name">' + b.name + '</span>' +
+          '<span class="live-band-range">' + b.range + '</span>' +
+        '</div>' +
+        '<div class="live-band-right">' +
+          '<span class="live-band-rate" style="color:' + b.color + '">' + b.rate + '</span>' +
+          '<span class="live-band-amount" id="' + b.id + '-amt" style="display:none">—</span>' +
+          '<span class="live-band-chevron" id="' + b.id + '-chev">▼</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="live-band-body" id="' + b.id + '-body">' +
+        '<div class="live-band-inner">' +
+          '<div class="live-band-explain">' + b.explain + '</div>' +
+          (b.trapNote ? '<div class="live-band-explain" style="color:#7C3AED;font-weight:500;margin-top:-.25rem">' + b.trapNote + '</div>' : '') +
+          '<div class="live-band-calc" id="' + b.id + '-calc">—</div>' +
+        '</div>' +
+      '</div>';
+    container.appendChild(div);
+  });
+}
+
+function toggleLiveBand(id) {
+  var body = document.getElementById(id + '-body');
+  var chev = document.getElementById(id + '-chev');
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function updateLiveBands(sal, r) {
+  var pa = r.pa;
+  var isScotland = state.region === 'scotland';
+  var bands = isScotland ? SCOTLAND_BANDS : ENGLAND_BANDS;
+  var activeBandId = null;
+
+  // Determine highest active band
+  if (isScotland) {
+    if (sal > 125140) activeBandId = 'lb-s48';
+    else if (sal > 75000) activeBandId = 'lb-s45';
+    else if (sal > 43662) activeBandId = 'lb-s42';
+    else if (sal > 26561) activeBandId = 'lb-s21';
+    else if (sal > 14876) activeBandId = 'lb-s20';
+    else if (sal > 12570) activeBandId = 'lb-s19';
+    else activeBandId = 'lb-s0';
+  } else {
+    if (sal > 125140) activeBandId = 'lb-45';
+    else if (sal > 100000) activeBandId = 'lb-trap';
+    else if (sal > 50270) activeBandId = 'lb-40';
+    else if (sal > 12570) activeBandId = 'lb-20';
+    else activeBandId = 'lb-0';
+  }
+
+  bands.forEach(function(b) {
+    var el = document.getElementById(b.id);
+    var body = document.getElementById(b.id + '-body');
+    var chev = document.getElementById(b.id + '-chev');
+    var amt = document.getElementById(b.id + '-amt');
+    var calc = document.getElementById(b.id + '-calc');
+    if (!el) return;
+
+    var isActive = sal > b.from;
+    var isHighest = b.id === activeBandId;
+    var isTrap = b.id === 'lb-trap' && sal > 100000 && sal <= 125140;
+
+    // Style the card
+    el.className = 'live-band ' + (isActive ? (b.id === 'lb-trap' ? 'trap-band' : 'active') : 'inactive');
+
+    // Amount badge and calculation
+    if (isActive) {
+      amt.style.display = 'inline-block';
+      var calcHtml = '';
+      var amtClass = 'live-band-amount';
+
+      if (b.id === 'lb-0' || b.id === 'lb-s0') {
+        amt.textContent = fmt(pa) + ' tax-free';
+        calcHtml = '<div class="calc-row-item"><span>Your personal allowance</span><span>' + fmt(pa) + '</span></div>' +
+          (pa < 12570 ? '<div class="calc-row-item" style="color:#7C3AED"><span>⚠ Reduced by taper</span><span>−' + fmt(12570-pa) + ' withdrawn</span></div>' : '') +
+          '<div class="calc-total"><span>Tax on this portion</span><span style="color:#16A34A">£0 — tax-free</span></div>';
+      } else if (b.id === 'lb-trap') {
+        var depth = Math.min(sal,125140)-100000;
+        var paLost = Math.round(depth/2);
+        var trapTax = Math.round(depth*0.40+paLost*0.40);
+        amt.textContent = '⚠ ' + fmt(depth) + ' in trap';
+        amtClass = 'live-band-amount purple';
+        calcHtml = '<div class="calc-row-item"><span>Income in trap zone</span><span>' + fmt(depth) + '</span></div>' +
+          '<div class="calc-row-item"><span>Personal allowance lost</span><span>' + fmt(paLost) + '</span></div>' +
+          '<div class="calc-row-item"><span>Tax on new earnings (40%)</span><span>' + fmt(Math.round(depth*0.40)) + '</span></div>' +
+          '<div class="calc-row-item"><span>Tax on lost allowance (40%)</span><span>' + fmt(Math.round(paLost*0.40)) + '</span></div>' +
+          '<div class="calc-total"><span>Combined trap tax</span><span style="color:#7C3AED">~' + fmt(trapTax) + ' (~60%)</span></div>';
+      } else {
+        // Generic band — find matching band data from r.bands
+        var bandKey = b.id.replace('lb-','').replace('s','s');
+        var rateMap = {'lb-20':'b20','lb-40':'b40','lb-45':'b45','lb-s19':'s19','lb-s20':'s20','lb-s21':'s21','lb-s42':'s42','lb-s45':'s45','lb-s48':'s48'};
+        var rKey = rateMap[b.id];
+        var bandData = rKey && r.bands[rKey] ? r.bands[rKey] : null;
+        var taxable = bandData ? bandData.taxable : Math.max(0, Math.min(sal, b.to) - Math.max(pa, b.from));
+        var tax = bandData ? bandData.tax : Math.round(taxable * b.rateNum/100);
+        if (tax > 0) {
+          amt.textContent = fmt(tax) + ' tax';
+          amtClass = b.rateNum >= 42 ? 'live-band-amount warn' : b.rateNum >= 45 ? 'live-band-amount danger' : 'live-band-amount';
+          calcHtml = '<div class="calc-row-item"><span>Income in this band</span><span>' + fmt(taxable) + '</span></div>' +
+            '<div class="calc-row-item"><span>Rate</span><span>' + b.rateNum + '%</span></div>' +
+            '<div class="calc-total"><span>Tax on this portion</span><span>' + fmt(tax) + '</span></div>';
+        } else {
+          amt.textContent = 'Tax-free';
+          calcHtml = '<div class="calc-row-item"><span>Tax on this portion</span><span style="color:#16A34A">£0 — tax-free</span></div>';
+        }
+      }
+      amt.className = amtClass;
+      if (calc) calc.innerHTML = calcHtml;
+    } else {
+      amt.style.display = 'none';
+      if (calc) calc.innerHTML = '<span style="color:var(--g400);font-size:12px">Not reached at your current salary — move the slider up to see this band</span>';
+    }
+
+    // Auto expand highest active band
+    if (isHighest && !body.classList.contains('open')) {
+      body.classList.add('open');
+      chev.classList.add('open');
+    } else if (!isHighest && body.classList.contains('open')) {
+      body.classList.remove('open');
+      chev.classList.remove('open');
+    }
+
+  }); // end bands.forEach
+} // end updateLiveBands
+
 // ── STICKY BAR ──
 window.addEventListener('scroll', function() {
   var bar = document.getElementById('sticky-bar');
@@ -1246,6 +1544,7 @@ window.addEventListener('scroll', function() {
 }, { passive: true });
 
 // ── INIT ──
+buildLiveBands();
 updateAll();
 </script>
 </body>
