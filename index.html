@@ -281,46 +281,69 @@ hr.div { border: none; border-top: 1px solid var(--g100); margin: 2.5rem 2rem; }
 
 /* ── CALCULATOR ── */
 /* ── HEAT MAP ── */
-.heatmap-wrap{margin:.875rem 0;padding:1rem 1.25rem;background:var(--white);border:1.5px solid var(--g200);border-radius:var(--radius-lg);transition:border-color .4s}
-.heatmap-wrap.hm-safe{border-color:#86EFAC}
-.heatmap-wrap.hm-higher{border-color:#FCD34D}
-.heatmap-wrap.hm-approaching{border-color:#FDBA74}
-.heatmap-wrap.hm-trap{border-color:#FCA5A5}
-.heatmap-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem}
+.heatmap-wrap{margin:.875rem 0;padding:1.25rem 1.25rem 1rem;background:var(--white);border:1.5px solid var(--g200);border-radius:var(--radius-lg);transition:border-color .4s ease,box-shadow .4s ease}
+.heatmap-wrap.hm-safe{border-color:#86EFAC;box-shadow:0 0 0 3px rgba(34,197,94,.06)}
+.heatmap-wrap.hm-higher{border-color:#FCD34D;box-shadow:0 0 0 3px rgba(234,179,8,.06)}
+.heatmap-wrap.hm-approaching{border-color:#FDBA74;box-shadow:0 0 0 3px rgba(249,115,22,.08)}
+.heatmap-wrap.hm-trap{border-color:#FCA5A5;box-shadow:0 0 0 3px rgba(239,68,68,.08)}
+.heatmap-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:8px;flex-wrap:wrap}
 .heatmap-title{font-size:12px;font-weight:500;color:var(--g600)}
-.heatmap-status{font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;transition:all .3s}
+.heatmap-status{font-size:12px;font-weight:500;padding:4px 12px;border-radius:999px;transition:all .35s ease;white-space:nowrap}
 .heatmap-status.hm-safe{background:#DCFCE7;color:#166534}
 .heatmap-status.hm-higher{background:#FEF9C3;color:#854D0E}
 .heatmap-status.hm-approaching{background:#FFEDD5;color:#9A3412}
 .heatmap-status.hm-trap{background:#FEE2E2;color:#991B1B}
-.heatmap-bar-wrap{position:relative;height:38px;margin-bottom:4px}
-.heatmap-bar{position:absolute;top:12px;left:0;right:0;height:14px;border-radius:7px;background:linear-gradient(90deg,#22C55E 0%,#84CC16 18%,#EAB308 32%,#F97316 52%,#EF4444 68%,#DC2626 84%,#991B1B 100%);box-shadow:inset 0 1px 3px rgba(0,0,0,.15)}
-.hm-marker{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none}
-.hm-marker-line{width:1.5px;height:12px;background:rgba(0,0,0,.15)}
-.hm-marker-line.hm-danger{background:rgba(180,0,0,.35)}
-.hm-marker-label{font-size:9px;color:var(--g400);white-space:nowrap;margin-top:1px}
-.hm-marker-label.hm-danger{color:#B91C1C;font-weight:500}
-.hm-pin{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;transition:left .35s cubic-bezier(.4,0,.2,1);z-index:10;pointer-events:none}
-.hm-pin-label{font-size:11px;font-weight:600;color:#fff;border-radius:4px;padding:2px 7px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:background .3s}
+.heatmap-bar-wrap{position:relative;height:44px;margin-bottom:6px;cursor:crosshair}
+.heatmap-bar{position:absolute;top:14px;left:0;right:0;height:16px;border-radius:8px;background:linear-gradient(90deg,#22C55E 0%,#84CC16 18%,#EAB308 32%,#F97316 52%,#EF4444 68%,#DC2626 84%,#991B1B 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08)}
+.hm-marker{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:all;cursor:help;z-index:5}
+.hm-marker:hover .hm-tooltip{opacity:1;transform:translateX(-50%) translateY(0)}
+.hm-marker-line{width:2px;height:14px;background:rgba(0,0,0,.18);border-radius:1px}
+.hm-marker-line.hm-danger{background:rgba(180,0,0,.45)}
+.hm-marker-label{font-size:9px;color:var(--g400);white-space:nowrap;margin-top:2px;font-weight:500}
+.hm-marker-label.hm-danger{color:#B91C1C}
+.hm-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(4px);background:var(--g900);color:#fff;font-size:11px;line-height:1.5;padding:6px 10px;border-radius:6px;width:160px;text-align:center;opacity:0;transition:opacity .2s ease,transform .2s ease;pointer-events:none;z-index:20;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.hm-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--g900)}
+.hm-pin{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;transition:left .35s cubic-bezier(.34,1.2,.64,1);z-index:10;pointer-events:none}
+.hm-pin-label{font-size:11px;font-weight:700;color:#fff;border-radius:5px;padding:3px 8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:background .3s ease}
 .hm-pin-label.hm-safe{background:#16A34A}
 .hm-pin-label.hm-higher{background:#CA8A04}
 .hm-pin-label.hm-approaching{background:#EA580C}
-.hm-pin-label.hm-trap{background:#DC2626}
-.hm-pin-arrow{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #16A34A;margin-top:0;transition:border-top-color .3s}
+.hm-pin-label.hm-trap{background:#DC2626;animation:pulse-red 1.8s infinite}
+@keyframes pulse-red{0%,100%{box-shadow:0 2px 8px rgba(220,38,38,.3)}50%{box-shadow:0 2px 16px rgba(220,38,38,.6)}}
+.hm-pin-arrow{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #16A34A;transition:border-top-color .3s ease;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
 .hm-pin-arrow.hm-safe{border-top-color:#16A34A}
 .hm-pin-arrow.hm-higher{border-top-color:#CA8A04}
 .hm-pin-arrow.hm-approaching{border-top-color:#EA580C}
 .hm-pin-arrow.hm-trap{border-top-color:#DC2626}
-.heatmap-legend{display:flex;gap:.875rem;flex-wrap:wrap;margin-top:.5rem}
-.hm-leg{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--g400)}
-.hm-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.heatmap-insight{font-size:12px;line-height:1.65;margin-top:.875rem;padding:.75rem 1rem;border-radius:8px;display:none}
+.heatmap-legend{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:.875rem}
+@media(min-width:480px){.heatmap-legend{grid-template-columns:repeat(4,1fr)}}
+.hm-leg{display:flex;align-items:flex-start;gap:7px;padding:7px 8px;border-radius:8px;background:var(--g50);border:1px solid var(--g100);transition:border-color .25s,background .25s}
+.hm-leg.hm-leg-active{background:var(--white);border-color:var(--g300)}
+.hm-leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.hm-leg-title{font-size:11px;font-weight:600;display:block;line-height:1.3;color:var(--g800)}
+.hm-leg-desc{font-size:10px;color:var(--g400);display:block;line-height:1.4;margin-top:1px}
+.heatmap-insight{margin-top:.875rem;padding:.875rem 1rem;border-radius:10px;display:none;animation:fadeInUp .25s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .heatmap-insight.show{display:block}
-.heatmap-insight.hm-safe{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0}
-.heatmap-insight.hm-higher{background:#FEFCE8;color:#854D0E;border:1px solid #FDE68A}
-.heatmap-insight.hm-approaching{background:#FFF7ED;color:#9A3412;border:1px solid #FED7AA}
-.heatmap-insight.hm-trap{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+.heatmap-insight.hm-safe{background:#F0FDF4;border:1px solid #BBF7D0}
+.heatmap-insight.hm-higher{background:#FEFCE8;border:1px solid #FDE68A}
+.heatmap-insight.hm-approaching{background:#FFF7ED;border:1px solid #FED7AA}
+.heatmap-insight.hm-trap{background:#FEF2F2;border:1px solid #FECACA}
+.hi-title{font-size:13px;font-weight:600;margin-bottom:.5rem}
+.hm-safe .hi-title{color:#166534}.hm-higher .hi-title{color:#854D0E}.hm-approaching .hi-title{color:#9A3412}.hm-trap .hi-title{color:#991B1B}
+.hi-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:12px}
+.hi-row:last-of-type{border-bottom:none}
+.hm-safe .hi-row{color:#166534}.hm-higher .hi-row{color:#854D0E}.hm-approaching .hi-row{color:#9A3412}.hm-trap .hi-row{color:#991B1B}
+.hi-value{font-weight:700;white-space:nowrap}
+.hi-cta{margin-top:.625rem;padding:5px 8px;border-radius:6px;font-size:11px;font-weight:500;display:flex;align-items:center;gap:4px;line-height:1.4}
+.hm-trap .hi-cta{background:#FEE2E2;color:#991B1B}.hm-approaching .hi-cta{background:#FFEDD5;color:#9A3412}.hm-higher .hi-cta{background:#FEF9C3;color:#854D0E}.hm-safe .hi-cta{background:#DCFCE7;color:#166534}
+.calc-range{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:var(--g200);outline:none;cursor:pointer;margin-bottom:1.25rem;transition:opacity .15s}
+.calc-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--white);border:2.5px solid var(--t600);box-shadow:0 2px 8px rgba(15,110,86,.25);cursor:grab;transition:transform .15s,box-shadow .15s}
+.calc-range::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.15);box-shadow:0 4px 16px rgba(15,110,86,.4)}
+.calc-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--white);border:2.5px solid var(--t600);box-shadow:0 2px 8px rgba(15,110,86,.25);cursor:grab}
+.calc-range:focus::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(15,110,86,.15),0 2px 8px rgba(15,110,86,.25)}
 /* ── END HEAT MAP ── */
+
 
 .calc-wrap { background: var(--g50); border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--g100); }
 .calc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
@@ -726,43 +749,61 @@ footer { padding: 1.5rem 2rem; border-top: 1px solid var(--g100); }
           <span class="heatmap-status" id="hm-status">—</span>
         </div>
         <div class="heatmap-bar-wrap">
-          <!-- Gradient background bar -->
           <div class="heatmap-bar"></div>
-          <!-- Active zone highlight -->
-          <div class="heatmap-zone" id="hm-zone"></div>
-          <!-- Threshold markers -->
-          <div class="hm-marker" style="left:0%" title="Personal allowance starts">
+          <!-- Threshold markers with hover tooltips -->
+          <div class="hm-marker" style="left:0%">
             <div class="hm-marker-line"></div>
             <div class="hm-marker-label">£12k</div>
+            <div class="hm-tooltip">Personal allowance starts here — income below this is tax-free</div>
           </div>
-          <div class="hm-marker" style="left:21%" title="Higher rate threshold">
+          <div class="hm-marker" style="left:21%">
             <div class="hm-marker-line"></div>
             <div class="hm-marker-label">£50k</div>
+            <div class="hm-tooltip">Higher rate threshold — 40% applies on earnings above this</div>
           </div>
-          <div class="hm-marker" style="left:48%" title="Child benefit taper">
+          <div class="hm-marker" style="left:48%">
             <div class="hm-marker-line"></div>
             <div class="hm-marker-label">£60k</div>
+            <div class="hm-tooltip">Child benefit taper starts — High Income Charge begins above £60,000</div>
           </div>
-          <div class="hm-marker" style="left:69%" title="£100k trap starts">
-            <div class="hm-marker-line hm-marker-danger"></div>
-            <div class="hm-marker-label hm-marker-label-danger">£100k ⚠</div>
+          <div class="hm-marker" style="left:69%">
+            <div class="hm-marker-line hm-danger"></div>
+            <div class="hm-marker-label hm-danger">£100k ⚠</div>
+            <div class="hm-tooltip">Personal allowance taper begins — effective marginal rate reaches ~60% from here</div>
           </div>
-          <div class="hm-marker" style="left:100%" title="Trap ends">
-            <div class="hm-marker-line hm-marker-danger"></div>
-            <div class="hm-marker-label" style="transform:translateX(-100%)">£125k</div>
+          <div class="hm-marker" style="left:100%">
+            <div class="hm-marker-line hm-danger"></div>
+            <div class="hm-marker-label" style="transform:translateX(-80%)">£125k</div>
+            <div class="hm-tooltip" style="left:auto;right:0;transform:none">Personal allowance fully withdrawn above £125,140</div>
           </div>
-          <!-- Position pin -->
+          <!-- Animated position pin -->
           <div class="hm-pin" id="hm-pin">
             <div class="hm-pin-label" id="hm-pin-label">£50k</div>
             <div class="hm-pin-arrow" id="hm-pin-arrow"></div>
           </div>
         </div>
-        <div class="heatmap-legend">
-          <span class="hm-leg"><span class="hm-leg-dot" style="background:#22C55E"></span>Safe</span>
-          <span class="hm-leg"><span class="hm-leg-dot" style="background:#EF9F27"></span>Higher rate</span>
-          <span class="hm-leg"><span class="hm-leg-dot" style="background:#F97316"></span>Approaching trap</span>
-          <span class="hm-leg"><span class="hm-leg-dot" style="background:#E24B4A"></span>In the trap</span>
+
+        <!-- Upgraded legend -->
+        <div class="heatmap-legend" id="hm-legend">
+          <div class="hm-leg" id="leg-safe">
+            <span class="hm-leg-dot" style="background:#22C55E"></span>
+            <div><span class="hm-leg-title">🟢 Safe</span><span class="hm-leg-desc">Full allowance retained</span></div>
+          </div>
+          <div class="hm-leg" id="leg-higher">
+            <span class="hm-leg-dot" style="background:#EAB308"></span>
+            <div><span class="hm-leg-title">🟡 Higher rate</span><span class="hm-leg-desc">40% band applies</span></div>
+          </div>
+          <div class="hm-leg" id="leg-approaching">
+            <span class="hm-leg-dot" style="background:#F97316"></span>
+            <div><span class="hm-leg-title">🟠 Approaching</span><span class="hm-leg-desc">Taper may start soon</span></div>
+          </div>
+          <div class="hm-leg" id="leg-trap">
+            <span class="hm-leg-dot" style="background:#EF4444"></span>
+            <div><span class="hm-leg-title">🔴 In taper zone</span><span class="hm-leg-desc">~60% effective rate</span></div>
+          </div>
         </div>
+
+        <!-- Structured insight panel -->
         <div class="heatmap-insight" id="hm-insight"></div>
       </div>
 
@@ -1385,68 +1426,107 @@ document.addEventListener('click', function(e) {
 // ── HEAT MAP UPDATE ──
 function updateHeatMap(sal, pen) {
   var penAmt = Math.round(sal * (pen / 100));
-  var ani = sal - penAmt; // simplified ANI for display
-  
-  // Position on bar — scale £20k-£200k to 0-100%
+  var ani = sal - penAmt;
   var minSal = 20000, maxSal = 200000;
-  var pos = Math.max(0, Math.min(100, (ani - minSal) / (maxSal - minSal) * 100));
-  
-  // Determine zone
-  var zone, statusText, insightText;
-  if (ani > 100000 && ani <= 125140) {
-    zone = 'hm-trap';
-    statusText = '⚠ In the £100k trap';
-    var depth = ani - 100000;
-    insightText = '<strong>You are in the personal allowance taper zone.</strong> Your estimated adjusted income is <strong>£' + Math.round(ani).toLocaleString('en-GB') + '</strong> — <strong>£' + Math.round(depth).toLocaleString('en-GB') + '</strong> into the zone where the effective marginal rate is approximately 60p per £1. Increase your pension contribution above to see your position shift. <strong>Move the pension slider to watch this change.</strong>';
-  } else if (ani > 80000 && ani <= 100000) {
-    zone = 'hm-approaching';
-    statusText = '⚡ Approaching the trap';
-    var gap = 100000 - ani;
-    insightText = '<strong>You are £' + Math.round(gap).toLocaleString('en-GB') + ' away from the £100k trap.</strong> A pay rise, bonus, or side income could push you into the zone where the effective marginal rate reaches approximately 60%. Your pension contribution helps keep your taxable income lower.';
-  } else if (ani > 50270 && ani <= 80000) {
-    zone = 'hm-higher';
-    statusText = '↑ Higher rate taxpayer';
-    insightText = '<strong>You are a higher rate taxpayer.</strong> You pay 40% income tax on earnings above £50,270. As a higher rate taxpayer you are entitled to 40% pension relief — worth significantly more than basic rate relief. Every £100 you contribute to your pension could cost you as little as £60 after tax saving.';
-  } else if (ani > 125140) {
-    zone = 'hm-trap';
-    statusText = '⚠ Personal allowance withdrawn';
-    insightText = '<strong>Your personal allowance has been fully withdrawn.</strong> At this income level you pay 45% additional rate tax on earnings above £125,140. Pension contributions still reduce your taxable income directly — and are particularly valuable at this rate.';
-  } else {
-    zone = 'hm-safe';
-    statusText = '✓ Safe zone';
-    insightText = '<strong>You are in the safe zone.</strong> Your estimated adjusted income is <strong>£' + Math.round(ani).toLocaleString('en-GB') + '</strong>. Your full personal allowance of £12,570 applies. Move the salary slider right to see how your position changes as income rises.';
-  }
+  var pos = Math.max(2, Math.min(98, (ani - minSal) / (maxSal - minSal) * 100));
 
-  // Update pin position
+  // Zone
+  var zone;
+  if (ani > 100000 && ani <= 125140) zone = 'hm-trap';
+  else if (ani > 125140) zone = 'hm-trap';
+  else if (ani > 80000) zone = 'hm-approaching';
+  else if (ani > 50270) zone = 'hm-higher';
+  else zone = 'hm-safe';
+
+  // Pin
   var pin = document.getElementById('hm-pin');
   var pinLabel = document.getElementById('hm-pin-label');
   var pinArrow = document.getElementById('hm-pin-arrow');
   pin.style.left = pos + '%';
-  pinLabel.textContent = '£' + Math.round(ani/1000) + 'k';
+  pinLabel.textContent = '\u00a3' + Math.round(ani / 1000) + 'k';
   pinLabel.className = 'hm-pin-label ' + zone;
   pinArrow.className = 'hm-pin-arrow ' + zone;
 
-  // Update wrap border and status badge
-  var wrap = document.getElementById('heatmap-wrap');
-  wrap.className = 'heatmap-wrap ' + zone;
+  // Wrap + status
+  document.getElementById('heatmap-wrap').className = 'heatmap-wrap ' + zone;
   var status = document.getElementById('hm-status');
-  status.textContent = statusText;
-  status.className = 'heatmap-status ' + zone;
 
-  // Update insight
+  // Legend highlight
+  ['safe','higher','approaching','trap'].forEach(function(z) {
+    var el = document.getElementById('leg-' + z);
+    if (el) el.classList.toggle('hm-leg-active', zone === 'hm-' + z);
+  });
+
+  // Dynamic pension note
+  var pensionNote = '';
+  if (pen > 0 && ani < sal) {
+    if (zone === 'hm-trap' && ani <= 125140) {
+      var toExit = ani - 100000;
+      var extraPct = Math.ceil(toExit / sal * 100) + pen;
+      pensionNote = '\u2705 Pension reduces taxable income by \u00a3' + Math.round(penAmt).toLocaleString('en-GB') + '/yr — increase to ~' + extraPct + '% to potentially exit the zone';
+    } else if (zone === 'hm-approaching') {
+      pensionNote = '\u2705 Pension keeps you ' + fmt(100000 - ani) + ' clear of the trap';
+    } else {
+      pensionNote = '\u2705 Pension reduces your taxable income by ' + fmt(penAmt) + '/yr';
+    }
+  } else if (pen === 0 && ani > 80000) {
+    pensionNote = '\ud83d\udc49 Add a pension contribution to see how it shifts your position';
+  }
+
+  // Build structured insight
+  var html = '';
+  if (zone === 'hm-trap' && ani <= 125140) {
+    var depth = ani - 100000;
+    status.textContent = '\u26a0 In the taper zone';
+    status.className = 'heatmap-status hm-trap';
+    html = '<div class="hi-title">You are in the personal allowance taper zone</div>' +
+      '<div class="hi-row"><span class="hi-label">Estimated adjusted income</span><span class="hi-value">' + fmt(ani) + '</span></div>' +
+      '<div class="hi-row"><span class="hi-label">Into the taper zone</span><span class="hi-value">' + fmt(depth) + '</span></div>' +
+      '<div class="hi-row"><span class="hi-label">Effective marginal rate here</span><span class="hi-value">~60%</span></div>' +
+      '<div class="hi-cta">\ud83d\udc49 Every extra \u00a31 here may cost you ~60p in tax because HMRC removes your tax-free allowance as you earn more</div>';
+  } else if (ani > 125140) {
+    status.textContent = '\u2717 Allowance withdrawn';
+    status.className = 'heatmap-status hm-trap';
+    html = '<div class="hi-title">Personal allowance fully withdrawn</div>' +
+      '<div class="hi-row"><span class="hi-label">Estimated income</span><span class="hi-value">' + fmt(ani) + '</span></div>' +
+      '<div class="hi-row"><span class="hi-label">Rate above \u00a3125,140</span><span class="hi-value">45%</span></div>' +
+      '<div class="hi-cta">\ud83d\udc49 Pension contributions still reduce your taxable income directly at this level</div>';
+  } else if (zone === 'hm-approaching') {
+    var gap2 = 100000 - ani;
+    status.textContent = '\u26a1 Approaching trap';
+    status.className = 'heatmap-status hm-approaching';
+    html = '<div class="hi-title">Approaching the \u00a3100k threshold</div>' +
+      '<div class="hi-row"><span class="hi-label">Estimated adjusted income</span><span class="hi-value">' + fmt(ani) + '</span></div>' +
+      '<div class="hi-row"><span class="hi-label">Distance from taper zone</span><span class="hi-value">' + fmt(gap2) + '</span></div>' +
+      '<div class="hi-cta">\ud83d\udc49 A bonus or pay rise could push you into the zone — pension contributions help keep you clear</div>';
+  } else if (zone === 'hm-higher') {
+    status.textContent = '\u2191 Higher rate';
+    status.className = 'heatmap-status hm-higher';
+    html = '<div class="hi-title">Higher rate taxpayer — 40% on earnings above \u00a350,270</div>' +
+      '<div class="hi-row"><span class="hi-label">Estimated adjusted income</span><span class="hi-value">' + fmt(ani) + '</span></div>' +
+      '<div class="hi-row"><span class="hi-label">Marginal rate</span><span class="hi-value">40%</span></div>' +
+      '<div class="hi-cta">\ud83d\udc49 Pension contributions get 40% relief at this level — more valuable than basic rate</div>';
+  } else {
+    status.textContent = '\u2713 Safe zone';
+    status.className = 'heatmap-status hm-safe';
+    html = '<div class="hi-title">Full personal allowance retained</div>' +
+      '<div class="hi-row"><span class="hi-label">Estimated adjusted income</span><span class="hi-value">' + fmt(ani) + '</span></div>' +
+      '<div class="hi-row"><span class="hi-label">Personal allowance</span><span class="hi-value">\u00a312,570 — full</span></div>' +
+      '<div class="hi-cta">\ud83d\udc49 Move the salary slider right to see how position changes as income rises</div>';
+  }
+
+  if (pensionNote) {
+    html += '<div class="hi-cta" style="margin-top:4px;opacity:.8">' + pensionNote + '</div>';
+  }
+
   var insight = document.getElementById('hm-insight');
-  insight.innerHTML = insightText;
+  insight.innerHTML = html;
   insight.className = 'heatmap-insight show ' + zone;
 
-  // Show pension effect if pension > 0
-  if (pen > 0 && ani < sal) {
-    var salPos = Math.max(0, Math.min(100, (sal - minSal) / (maxSal - minSal) * 100));
-    var aniPos = pos;
-    // Visual feedback that pension moved the pin left
-    document.getElementById('hm-title').textContent = 'Your tax position — pension moves you left ←';
-  } else {
-    document.getElementById('hm-title').textContent = 'Your tax position';
-  }
+  // Title
+  document.getElementById('hm-title').textContent = pen > 0 && ani < sal
+    ? 'Your tax position — pension saving ' + fmt(sal - ani) + '/yr in taxable income'
+    : 'Your tax position';
 }
 
 // ── CALCULATOR ──
