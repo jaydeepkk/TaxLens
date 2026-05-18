@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaxLens — UK Tax Awareness Journey</title>
+<meta name="description" content="A guided UK tax awareness journey. Understand your take-home pay, pension, NI and the £100k trap — one step at a time, in plain English.">
+<link rel="canonical" href="https://taxlens.io/calculator">
+<meta name="google-site-verification" content="IdAjoN7Ix4-NOBTqEjtzWHpWo1O97kYQisINxmEyaJ0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F6E56'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='15' font-weight='bold' fill='white' text-anchor='middle'%3ETL%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --t50:#E1F5EE;--t100:#9FE1CB;--t200:#5DCAA5;--t400:#1D9E75;--t600:#0F6E56;--t800:#085041;--t900:#04342C;
+  --g50:#F8F9F8;--g100:#F0F0F0;--g200:#E0E0E0;--g400:#999;--g600:#666;--g800:#333;--g900:#1a1a1a;
+  --red:#E24B4A;--redLight:#FCEBEB;--amber:#EF9F27;--amberLight:#FAEEDA;
+  --white:#fff;--r:12px;--rlg:18px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--g900);background:var(--g50);min-height:100vh;font-size:15px;line-height:1.6}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.5rem;background:var(--white);border-bottom:1px solid var(--g200);position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-mark{width:28px;height:28px;background:var(--t600);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-mark i{font-size:14px;color:#fff}
+.logo-text{font-size:15px;font-weight:500;color:var(--g900)}
+.nav-back{font-size:13px;color:var(--g600);text-decoration:none;display:flex;align-items:center;gap:4px}
+.nav-back:hover{color:var(--g900)}
+
+/* PROGRESS BAR */
+.progress-wrap{background:var(--white);border-bottom:1px solid var(--g100);padding:.875rem 1.5rem}
+.progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.progress-label{font-size:12px;color:var(--g600)}
+.progress-pct{font-size:13px;font-weight:500;color:var(--t600)}
+.progress-track{height:6px;background:var(--g100);border-radius:3px;overflow:hidden}
+.progress-fill{height:6px;background:linear-gradient(90deg,var(--t400),var(--t600));border-radius:3px;transition:width .5s ease}
+.step-dots{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--g200);transition:all .3s}
+.step-dot.done{background:var(--t400)}
+.step-dot.current{background:var(--t600);width:20px;border-radius:4px}
+
+/* JOURNEY CONTAINER */
+.journey{max-width:640px;margin:0 auto;padding:2rem 1.5rem 4rem}
+@media(max-width:600px){.journey{padding:1.5rem 1rem 3rem}}
+
+/* STEP CARD */
+.step-card{display:none;animation:fadeIn .3s ease}
+.step-card.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* QUESTION HEADER */
+.q-number{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--t600);margin-bottom:8px}
+.q-title{font-family:'DM Serif Display',serif;font-size:1.7rem;font-weight:400;line-height:1.3;color:var(--g900);margin-bottom:.75rem}
+.q-title em{font-style:italic;color:var(--t600)}
+.q-subtitle{font-size:14px;color:var(--g600);line-height:1.7;margin-bottom:1.5rem}
+
+/* EXPLAINER BOX */
+.explainer{background:var(--t50);border:1px solid var(--t100);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.5rem}
+.explainer-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:8px}
+.explainer-toggle-left{display:flex;align-items:center;gap:8px}
+.explainer-toggle-left i{font-size:16px;color:var(--t600)}
+.explainer-toggle-text{font-size:13px;font-weight:500;color:var(--t800)}
+.explainer-toggle-arrow{font-size:14px;color:var(--t600);transition:transform .2s}
+.explainer-toggle-arrow.open{transform:rotate(180deg)}
+.explainer-body{font-size:13px;color:var(--t800);line-height:1.75;margin-top:.875rem;display:none}
+.explainer-body.open{display:block}
+.explainer-body p{margin-bottom:.5rem}
+.explainer-body p:last-child{margin-bottom:0}
+.explainer-body strong{font-weight:500;color:var(--t900)}
+
+/* INPUT STYLES */
+.salary-input-wrap{margin-bottom:1.5rem}
+.salary-big{display:flex;align-items:baseline;gap:4px;margin-bottom:.5rem}
+.salary-prefix{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--g400)}
+.salary-number{font-family:'DM Serif Display',serif;font-size:3rem;color:var(--g900);min-width:200px;border:none;outline:none;background:transparent;width:100%;-moz-appearance:textfield}
+.salary-number::-webkit-outer-spin-button,.salary-number::-webkit-inner-spin-button{-webkit-appearance:none}
+.salary-range{width:100%;accent-color:var(--t600);margin-bottom:.75rem;height:6px}
+.salary-equiv{font-size:13px;color:var(--g400);margin-bottom:1rem}
+.quick-btns{display:flex;flex-wrap:wrap;gap:6px}
+.qbtn{font-size:12px;padding:5px 10px;border:1px solid var(--g200);border-radius:20px;background:var(--white);color:var(--g600);cursor:pointer;font-family:inherit;transition:all .15s}
+.qbtn:hover{border-color:var(--t200);color:var(--t600);background:var(--t50)}
+.qbtn.neg:hover{border-color:#F09595;color:var(--red);background:var(--redLight)}
+
+.pill-group{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
+.pill{font-size:14px;padding:10px 18px;border:1.5px solid var(--g200);border-radius:30px;background:var(--white);color:var(--g700);cursor:pointer;font-family:inherit;transition:all .15s;line-height:1.3;text-align:left}
+.pill:hover{border-color:var(--t200);color:var(--t600);background:var(--t50)}
+.pill.selected{background:var(--t600);border-color:var(--t600);color:#fff;font-weight:500}
+.pill.wide{width:100%;display:flex;align-items:flex-start;gap:10px}
+.pill.wide .pill-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.pill.wide .pill-content{flex:1}
+.pill.wide .pill-label{font-size:14px;font-weight:500;display:block;margin-bottom:2px}
+.pill.wide .pill-desc{font-size:12px;opacity:.8;display:block;line-height:1.4}
+.pill.selected .pill-desc{opacity:.9}
+
+.toggle-row{display:flex;background:var(--g100);border-radius:30px;padding:3px;gap:3px;margin-bottom:1.5rem;width:fit-content}
+.toggle-opt{font-size:13px;padding:7px 16px;border:none;border-radius:27px;background:transparent;color:var(--g600);cursor:pointer;font-family:inherit;transition:all .15s}
+.toggle-opt.active{background:var(--white);color:var(--t600);font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+
+.number-input{font-size:1.5rem;font-weight:500;border:2px solid var(--g200);border-radius:var(--r);padding:.75rem 1rem;width:100%;font-family:'DM Sans',sans-serif;color:var(--g900);background:var(--white);outline:none;-moz-appearance:textfield;margin-bottom:.5rem}
+.number-input::-webkit-outer-spin-button,.number-input::-webkit-inner-spin-button{-webkit-appearance:none}
+.number-input:focus{border-color:var(--t400)}
+.input-hint{font-size:12px;color:var(--g400);margin-bottom:1.5rem}
+
+.yes-no{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+.yn-btn{padding:1rem;border:2px solid var(--g200);border-radius:var(--r);background:var(--white);cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;color:var(--g700);transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.yn-btn i{font-size:18px}
+.yn-btn:hover{border-color:var(--t200);color:var(--t600);background:var(--t50)}
+.yn-btn.selected{border-color:var(--t600);background:var(--t50);color:var(--t600)}
+.yn-btn.selected-no{border-color:var(--g400);background:var(--g50);color:var(--g600)}
+
+/* INSIGHT CARD — shown mid-journey */
+.insight{border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.5rem;border:1px solid}
+.insight.info{background:var(--t50);border-color:var(--t100)}
+.insight.warning{background:var(--amberLight);border-color:#FAC775}
+.insight.danger{background:var(--redLight);border-color:#F7C1C1}
+.insight-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.insight-header i{font-size:16px}
+.insight.info .insight-header i{color:var(--t600)}
+.insight.warning .insight-header i{color:#854F0B}
+.insight.danger .insight-header i{color:#A32D2D}
+.insight-title{font-size:13px;font-weight:500}
+.insight.info .insight-title{color:var(--t800)}
+.insight.warning .insight-title{color:#633806}
+.insight.danger .insight-title{color:#791F1F}
+.insight-body{font-size:13px;line-height:1.6}
+.insight.info .insight-body{color:var(--t800)}
+.insight.warning .insight-body{color:#633806}
+.insight.danger .insight-body{color:#791F1F}
+
+/* NEXT BUTTON */
+.next-btn{width:100%;padding:14px;background:var(--t600);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;margin-top:.5rem}
+.next-btn:hover{background:var(--t800)}
+.next-btn i{font-size:16px}
+.skip-link{display:block;text-align:center;margin-top:.875rem;font-size:13px;color:var(--g400);cursor:pointer;text-decoration:none}
+.skip-link:hover{color:var(--g600)}
+.back-btn{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--g400);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;margin-bottom:1.5rem}
+.back-btn:hover{color:var(--g600)}
+.back-btn i{font-size:14px}
+
+/* RESULTS PAGE */
+.results-header{text-align:center;margin-bottom:2rem;padding:1.5rem;background:var(--white);border-radius:var(--rlg);border:1px solid var(--g200)}
+.results-score{width:80px;height:80px;border-radius:50%;background:var(--t600);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1rem}
+.results-score-num{font-size:1.6rem;font-weight:500;line-height:1}
+.results-score-label{font-size:9px;letter-spacing:.05em;opacity:.8}
+.results-title{font-family:'DM Serif Display',serif;font-size:1.4rem;font-weight:400;margin-bottom:6px}
+.results-sub{font-size:13px;color:var(--g600);line-height:1.6}
+
+.result-card{background:var(--white);border-radius:var(--r);border:1px solid var(--g200);padding:1.25rem;margin-bottom:.875rem}
+.rc-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--g400);margin-bottom:6px}
+.rc-value{font-size:1.8rem;font-weight:500;color:var(--g900);margin-bottom:4px}
+.rc-detail{font-size:13px;color:var(--g600)}
+.rc-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.rcb{background:var(--g50);border-radius:8px;padding:.75rem;text-align:center}
+.rcb-val{font-size:15px;font-weight:500;color:var(--g900);margin-bottom:2px}
+.rcb-label{font-size:11px;color:var(--g400)}
+
+.trap-result{border-radius:var(--r);border:1px solid;padding:1.25rem;margin-bottom:.875rem}
+.trap-result.safe{background:var(--t50);border-color:var(--t100)}
+.trap-result.warn{background:var(--amberLight);border-color:#FAC775}
+.trap-result.danger{background:var(--redLight);border-color:#F7C1C1}
+.tr-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.tr-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.trap-result.safe .tr-icon{background:var(--t100)}
+.trap-result.warn .tr-icon{background:#FAC775}
+.trap-result.danger .tr-icon{background:#F09595}
+.tr-icon i{font-size:17px}
+.trap-result.safe .tr-icon i{color:var(--t800)}
+.trap-result.warn .tr-icon i{color:#633806}
+.trap-result.danger .tr-icon i{color:#791F1F}
+.tr-title{font-size:14px;font-weight:500}
+.trap-result.safe .tr-title{color:var(--t800)}
+.trap-result.warn .tr-title{color:#633806}
+.trap-result.danger .tr-title{color:#791F1F}
+.tr-body{font-size:13px;line-height:1.65}
+.trap-result.safe .tr-body{color:var(--t800)}
+.trap-result.warn .tr-body{color:#633806}
+.trap-result.danger .tr-body{color:#791F1F}
+.trap-meter{margin-top:10px;height:8px;background:rgba(255,255,255,.5);border-radius:4px;overflow:hidden}
+.trap-meter-fill{height:8px;border-radius:4px;transition:width .5s}
+.trap-result.warn .trap-meter-fill{background:#EF9F27}
+.trap-result.danger .trap-meter-fill{background:var(--red)}
+
+.scenario-section{background:var(--white);border-radius:var(--r);border:1px solid var(--g200);padding:1.25rem;margin-bottom:.875rem}
+.sc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sc-title{font-size:14px;font-weight:500;color:var(--g900)}
+.sc-badge{font-size:11px;padding:3px 8px;background:var(--t50);color:var(--t800);border-radius:999px}
+.sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:480px){.sc-grid{grid-template-columns:1fr}}
+.sc-col{border:1px solid var(--g200);border-radius:10px;padding:.875rem;position:relative;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.sc-col:hover{border-color:var(--t200);box-shadow:0 2px 12px rgba(15,110,86,.1)}
+.sc-col.current{border-color:var(--t200);background:var(--t50)}
+.sc-col-label{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--g400);margin-bottom:5px}
+.sc-col.current .sc-col-label{color:var(--t600)}
+.sc-pension{font-size:12px;color:var(--g600);margin-bottom:5px}
+.sc-home{font-size:17px;font-weight:500;color:var(--g900)}
+.sc-col.current .sc-home{color:var(--t600)}
+.sc-tax{font-size:11px;color:var(--g400);margin-top:2px}
+.sc-diff{font-size:12px;font-weight:500;margin-top:5px;color:var(--t600)}
+.sc-locked{position:absolute;inset:0;background:rgba(255,255,255,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.sc-locked i{font-size:18px;color:var(--g400)}
+.sc-locked span{font-size:11px;color:var(--g400);text-align:center;padding:0 6px}
+
+.upgrade-bar{background:var(--t50);border:1px solid var(--t100);border-radius:10px;padding:.875rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.upgrade-bar p{font-size:12px;color:var(--t800);flex:1;min-width:180px;line-height:1.5}
+.upgrade-bar-btn{font-size:13px;padding:8px 16px;background:var(--t600);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.upgrade-bar-btn:hover{background:var(--t800)}
+
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1.5rem}
+@media(max-width:400px){.result-actions{grid-template-columns:1fr}}
+.ra-btn{padding:12px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;text-align:center;display:flex;align-items:center;justify-content:center;gap:7px}
+.ra-primary{background:var(--t600);color:#fff;border:none}
+.ra-primary:hover{background:var(--t800)}
+.ra-secondary{background:var(--white);color:var(--g800);border:1px solid var(--g200)}
+.ra-secondary:hover{background:var(--g50)}
+
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--g500);cursor:pointer;background:none;border:1px solid var(--g200);border-radius:20px;font-family:inherit;padding:6px 12px;margin-bottom:1.5rem;transition:all .15s}
+.back-btn:hover{color:var(--g800);border-color:var(--g400);background:var(--g50)}
+.back-btn i{font-size:13px}
+
+.disclaimer{font-size:11px;color:var(--g400);line-height:1.6;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--g100);text-align:center}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.modal-bg.show{display:flex}
+.modal-box{background:var(--white);border-radius:var(--rlg);padding:1.5rem;max-width:420px;width:100%}
+.modal-title{font-family:'DM Serif Display',serif;font-size:1.3rem;font-weight:400;margin-bottom:8px}
+.modal-price{font-size:2rem;font-weight:500;color:var(--t600);margin:10px 0 4px}
+.modal-price sub{font-size:14px;font-weight:400;color:var(--g600)}
+.modal-desc{font-size:13px;color:var(--g600);line-height:1.6;margin-bottom:1.25rem}
+.modal-list{list-style:none;margin-bottom:1.25rem}
+.modal-list li{font-size:13px;color:var(--g600);padding:4px 0;display:flex;align-items:flex-start;gap:8px;border-bottom:1px solid var(--g100)}
+.modal-list li:last-child{border-bottom:none}
+.modal-list li i{font-size:13px;color:var(--t400);flex-shrink:0;margin-top:2px}
+.modal-cta{width:100%;padding:12px;background:var(--t600);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;margin-bottom:8px}
+.modal-cta:hover{background:var(--t800)}
+.modal-close{width:100%;padding:9px;background:transparent;color:var(--g600);border:none;font-size:13px;cursor:pointer;font-family:inherit}
+.modal-fine{font-size:11px;color:var(--g400);text-align:center;margin-top:6px;line-height:1.5}
+
+/* CALCULATION CHAIN */
+.chain{display:flex;flex-direction:column}
+.chain-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--g100)}
+.chain-row:last-child{border-bottom:none}
+.chain-row.takehome-row{background:var(--t50);border-radius:10px;padding:12px;margin-top:6px;border:1px solid var(--t100)}
+.chain-label{font-size:13px;color:var(--g700);flex:1;line-height:1.5}
+.chain-label strong{color:var(--g900);font-weight:500}
+.chain-sub{font-size:11px;color:var(--g400);display:block;margin-top:2px;line-height:1.5}
+.chain-bands{font-size:11px;color:var(--g600);display:block;margin-top:4px;line-height:1.7;padding:6px 8px;background:rgba(0,0,0,.03);border-radius:6px;border-left:2px solid var(--g200)}
+.chain-amount{font-size:14px;font-weight:500;white-space:nowrap;text-align:right;padding-top:1px}
+.chain-amount.pos{color:var(--g900)}
+.chain-amount.ded{color:var(--red)}
+.chain-amount.pen{color:#1D9E75}
+.chain-amount.th{color:var(--t600);font-size:18px}
+.chain-section{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--g400);padding:10px 0 4px;border-bottom:1px solid var(--g100)}
+.chain-bonus-wrap{background:var(--amberLight);border:1px solid #FAC775;border-radius:10px;padding:10px 12px;margin-top:8px}
+.chain-bonus-title{font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:#854F0B;margin-bottom:6px}
+
+footer{padding:1.5rem;border-top:1px solid var(--g200);background:var(--white);margin-top:2rem}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;max-width:640px;margin-left:auto;margin-right:auto}
+.footer-brand{font-size:13px;font-weight:500;color:var(--g900)}
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{font-size:12px;color:var(--g400);text-decoration:none}
+.footer-disclaimer{font-size:11px;color:var(--g400);line-height:1.6;max-width:640px;margin:0 auto}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="/">
+    <div class="logo-mark"><i class="ti ti-zoom-money" aria-hidden="true"></i></div>
+    <span class="logo-text">TaxLens</span>
+  </a>
+  <a href="/" class="nav-back"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back to home</a>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label" id="prog-label">Step 1 of 7 — Your salary</span>
+    <span class="progress-pct" id="prog-pct">0% complete</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="step-dots" id="step-dots"></div>
+</div>
+
+<div class="journey">
+
+<!-- ═══ STEP 1 — SALARY ═══ -->
+<div class="step-card active" id="step-1">
+  <div class="q-number">Question 1 of 7</div>
+  <h1 class="q-title">What is your <em>gross pay</em> before tax?</h1>
+  <p class="q-subtitle">Enter your salary or rate before any deductions. Use the toggle to switch between how you're paid — per year, month, day or hour.</p>
+
+  <div class="explainer">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-info-circle" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">What does "before tax" mean?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>Your <strong>gross pay</strong> is what your employer pays you before the government takes anything. Your <strong>net pay</strong> (or take-home) is what actually lands in your bank account after income tax, National Insurance, pension and student loan repayments are deducted.</p>
+      <p>Most people only think about their net pay — but understanding your gross is the starting point for understanding your whole tax picture.</p>
+    </div>
+  </div>
+
+  <div class="salary-input-wrap">
+    <div class="toggle-row" style="margin-bottom:1rem" id="sal-mode-toggle">
+      <button class="toggle-opt active" onclick="setSalaryMode('year',this)">Per year</button>
+      <button class="toggle-opt" onclick="setSalaryMode('month',this)">Per month</button>
+      <button class="toggle-opt" onclick="setSalaryMode('day',this)">Per day</button>
+      <button class="toggle-opt" onclick="setSalaryMode('hour',this)">Per hour</button>
+    </div>
+
+    <div class="salary-big">
+      <span class="salary-prefix">£</span>
+      <input type="number" class="salary-number" id="sal-input" value="60000" min="0" max="1000000" oninput="onSalInput()">
+      <span style="font-size:1.2rem;color:var(--g400);margin-left:4px" id="sal-unit">/year</span>
+    </div>
+    <input type="range" class="salary-range" id="sal-range" min="10000" max="200000" step="500" value="60000" oninput="onSalRange()">
+
+    <!-- DAY RATE EXTRA INPUTS -->
+    <div id="day-extra" style="display:none;margin-top:1rem;padding:1rem;background:var(--g50);border-radius:var(--r);border:1px solid var(--g200)">
+      <p style="font-size:13px;font-weight:500;color:var(--g900);margin-bottom:.75rem">How many days a week do you work?</p>
+      <p style="font-size:12px;color:var(--g600);margin-bottom:.75rem">We use this to calculate your estimated annual income. A standard full-time week is 5 days. Contractors often work fewer.</p>
+      <div class="pill-group" id="day-week-pills" style="margin-bottom:.75rem">
+        <button class="pill" onclick="setDaysPerWeek(1,this)">1 day</button>
+        <button class="pill" onclick="setDaysPerWeek(2,this)">2 days</button>
+        <button class="pill" onclick="setDaysPerWeek(3,this)">3 days</button>
+        <button class="pill" onclick="setDaysPerWeek(4,this)">4 days</button>
+        <button class="pill selected" onclick="setDaysPerWeek(5,this)">5 days</button>
+        <button class="pill" onclick="setDaysPerWeek('custom',this)">Custom</button>
+      </div>
+      <div id="day-custom-wrap" style="display:none;margin-bottom:.75rem">
+        <input type="number" class="number-input" id="day-custom-input" placeholder="Days per week" min="1" max="7" oninput="setDaysPerWeek(parseFloat(this.value)||5,null)">
+      </div>
+      <div style="font-size:12px;color:var(--g400)" id="day-annual-preview">Estimated annual: calculating...</div>
+    </div>
+
+    <!-- HOUR RATE EXTRA INPUTS -->
+    <div id="hour-extra" style="display:none;margin-top:1rem;padding:1rem;background:var(--g50);border-radius:var(--r);border:1px solid var(--g200)">
+      <p style="font-size:13px;font-weight:500;color:var(--g900);margin-bottom:.75rem">How many hours do you work per day?</p>
+      <div class="pill-group" id="hours-day-pills" style="margin-bottom:1rem">
+        <button class="pill" onclick="setHoursPerDay(4,this)">4 hrs</button>
+        <button class="pill" onclick="setHoursPerDay(6,this)">6 hrs</button>
+        <button class="pill" onclick="setHoursPerDay(7.5,this)">7.5 hrs</button>
+        <button class="pill selected" onclick="setHoursPerDay(8,this)">8 hrs</button>
+        <button class="pill" onclick="setHoursPerDay(10,this)">10 hrs</button>
+        <button class="pill" onclick="setHoursPerDay('custom',this)">Custom</button>
+      </div>
+      <div id="hour-custom-wrap" style="display:none;margin-bottom:1rem">
+        <input type="number" class="number-input" id="hour-custom-input" placeholder="Hours per day" min="1" max="24" oninput="setHoursPerDay(parseFloat(this.value)||8,null)">
+      </div>
+      <p style="font-size:13px;font-weight:500;color:var(--g900);margin-bottom:.75rem">How many days a week do you work?</p>
+      <div class="pill-group" id="hour-week-pills" style="margin-bottom:.75rem">
+        <button class="pill" onclick="setHourDaysPerWeek(1,this)">1 day</button>
+        <button class="pill" onclick="setHourDaysPerWeek(2,this)">2 days</button>
+        <button class="pill" onclick="setHourDaysPerWeek(3,this)">3 days</button>
+        <button class="pill" onclick="setHourDaysPerWeek(4,this)">4 days</button>
+        <button class="pill selected" onclick="setHourDaysPerWeek(5,this)">5 days</button>
+        <button class="pill" onclick="setHourDaysPerWeek('custom',this)">Custom</button>
+      </div>
+      <div id="hour-day-custom-wrap" style="display:none;margin-bottom:.75rem">
+        <input type="number" class="number-input" id="hour-day-custom-input" placeholder="Days per week" min="1" max="7" oninput="setHourDaysPerWeek(parseFloat(this.value)||5,null)">
+      </div>
+      <div style="font-size:12px;color:var(--g400)" id="hour-annual-preview">Estimated annual: calculating...</div>
+    </div>
+
+    <div class="salary-equiv" id="sal-equiv" style="margin-top:.75rem">£5,000/month · £1,154/week · £231/day</div>
+    <div class="quick-btns" id="sal-quick-btns">
+      <button class="qbtn neg" onclick="adjSal(-10000)">−£10k</button>
+      <button class="qbtn neg" onclick="adjSal(-5000)">−£5k</button>
+      <button class="qbtn" onclick="adjSal(5000)">+£5k</button>
+      <button class="qbtn" onclick="adjSal(10000)">+£10k</button>
+      <button class="qbtn" onclick="adjSal(20000)">+£20k</button>
+    </div>
+  </div>
+
+  <button class="next-btn" onclick="goStep(2)">Next — tell us about your region <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+</div>
+
+<!-- ═══ STEP 2 — REGION ═══ -->
+<div class="step-card" id="step-2">
+  <button class="back-btn" onclick="goStep(1)"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back</button>
+  <div class="q-number">Question 2 of 7</div>
+  <h1 class="q-title">Where do you <em>live and work</em>?</h1>
+  <p class="q-subtitle">UK income tax varies by region. Scotland has its own set of tax bands which are different from the rest of the UK. This makes a real difference to your take-home pay.</p>
+
+  <div class="explainer">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-map-pin" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">Why does region affect my tax?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>The UK has <strong>devolved income tax</strong>, which means Scotland sets its own income tax rates and bands through the Scottish Parliament. Scottish taxpayers have five income tax bands (compared to three in England, Wales and Northern Ireland).</p>
+      <p>For example, Scottish higher rate taxpayers pay <strong>42%</strong> on earnings between £43,663 and £75,000 — compared to 40% in England for the same range. This can make a meaningful difference to your take-home pay at higher salary levels.</p>
+      <p><strong>Wales</strong> has technically devolved income tax powers but currently mirrors English rates. <strong>Northern Ireland</strong> also uses the same rates as England.</p>
+    </div>
+  </div>
+
+  <div class="pill-group">
+    <button class="pill wide selected" onclick="selectPill(this,'region','england')" data-val="england">
+      <span class="pill-icon">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+      <span class="pill-content"><span class="pill-label">England</span><span class="pill-desc">Standard UK income tax rates apply</span></span>
+    </button>
+    <button class="pill wide" onclick="selectPill(this,'region','scotland')" data-val="scotland">
+      <span class="pill-icon">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+      <span class="pill-content"><span class="pill-label">Scotland</span><span class="pill-desc">Scottish income tax rates — 5 bands, different thresholds</span></span>
+    </button>
+    <button class="pill wide" onclick="selectPill(this,'region','wales')" data-val="wales">
+      <span class="pill-icon">🏴󠁧󠁢󠁷󠁬󠁳󠁿</span>
+      <span class="pill-content"><span class="pill-label">Wales</span><span class="pill-desc">Same rates as England for 2025/26</span></span>
+    </button>
+    <button class="pill wide" onclick="selectPill(this,'region','ni')" data-val="ni">
+      <span class="pill-icon">🇬🇧</span>
+      <span class="pill-content"><span class="pill-label">Northern Ireland</span><span class="pill-desc">Same rates as England for 2025/26</span></span>
+    </button>
+  </div>
+
+  <button class="next-btn" onclick="goStep(3)">Next — pension contributions <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+</div>
+
+<!-- ═══ STEP 3 — PENSION ═══ -->
+<div class="step-card" id="step-3">
+  <button class="back-btn" onclick="goStep(2)"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back</button>
+  <div class="q-number">Question 3 of 7</div>
+  <h1 class="q-title">Do you contribute to a <em>pension</em>?</h1>
+  <p class="q-subtitle">Pension contributions reduce the income you pay tax on — and the government adds tax relief on top. Understanding this is one of the most valuable insights in your tax picture.</p>
+
+  <div class="explainer">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-piggy-bank" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">What is a pension and why does it reduce my tax?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>A <strong>pension</strong> is a savings pot for retirement. The government encourages people to save into pensions by giving <strong>tax relief</strong> — meaning some of the money you would have paid in tax goes into your pension instead.</p>
+      <p><strong>Basic rate taxpayers (20%)</strong> get 20p added for every 80p they contribute — so a £100 pension contribution only costs you £80 out of take-home pay.</p>
+      <p><strong>Higher rate taxpayers (40%)</strong> can get 40% relief — so a £100 pension contribution could cost you just £60. The extra 20% is often claimed back via Self Assessment.</p>
+      <p>Pension contributions also reduce your <strong>adjusted net income</strong> — which is important if you're near the £100,000 personal allowance threshold.</p>
+      <div style="background:var(--t50);border:1px solid var(--t100);border-radius:8px;padding:.875rem 1rem;margin-top:.875rem">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+          <i class="ti ti-star" aria-hidden="true" style="font-size:14px;color:var(--t600)"></i>
+          <span style="font-size:12px;font-weight:500;color:var(--t600);letter-spacing:.04em;text-transform:uppercase">Pro tip</span>
+        </div>
+        <p style="font-size:13px;color:var(--t800);line-height:1.7;margin:0">Higher rate taxpayers who contribute to a pension via relief at source often only receive 20% relief automatically — the extra 20% has to be claimed separately through Self Assessment. Many people never claim it, effectively leaving money with HMRC. If you are a higher rate taxpayer and file a Self Assessment return, always check that you are claiming full pension relief. Over a career, unclaimed relief can amount to thousands of pounds.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="yes-no" style="margin-bottom:1rem" id="pension-yn">
+    <button class="yn-btn selected" id="pen-yes" onclick="setPensionYN(true)"><i class="ti ti-check" aria-hidden="true"></i>Yes, I contribute</button>
+    <button class="yn-btn" id="pen-no" onclick="setPensionYN(false)"><i class="ti ti-x" aria-hidden="true"></i>No / not sure</button>
+  </div>
+
+  <div id="pension-detail" style="display:block">
+    <p style="font-size:13px;color:var(--g600);margin-bottom:.75rem">What percentage of your salary do you contribute?</p>
+    <div class="pill-group">
+      <button class="pill selected" onclick="selectPill(this,'pension',3)" data-val="3">3%</button>
+      <button class="pill" onclick="selectPill(this,'pension',5)" data-val="5">5%</button>
+      <button class="pill" onclick="selectPill(this,'pension',8)" data-val="8">8%</button>
+      <button class="pill" onclick="selectPill(this,'pension',10)" data-val="10">10%</button>
+      <button class="pill" onclick="selectPill(this,'pension',15)" data-val="15">15%</button>
+      <button class="pill" onclick="selectPill(this,'pension',20)" data-val="20">20%</button>
+      <button class="pill" onclick="showCustomPension()" data-val="custom">Custom %</button>
+    </div>
+    <div id="custom-pen-wrap" style="display:none;margin-bottom:1rem">
+      <input type="number" class="number-input" id="custom-pen-input" placeholder="Enter %" min="0" max="80" oninput="setCustomPen(this.value)">
+      <p class="input-hint">Enter a percentage between 0 and 80</p>
+    </div>
+
+    <p style="font-size:13px;color:var(--g600);margin-bottom:.75rem">How does your pension contribution work?</p>
+    <div class="explainer" style="margin-bottom:1rem">
+      <div class="explainer-toggle" onclick="toggleExplainer(this)">
+        <div class="explainer-toggle-left">
+          <i class="ti ti-info-circle" aria-hidden="true"></i>
+          <span class="explainer-toggle-text">Salary sacrifice vs relief at source — what's the difference?</span>
+        </div>
+        <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+      </div>
+      <div class="explainer-body">
+        <p><strong>Salary sacrifice</strong> means your employer reduces your gross salary by the pension amount before calculating tax and NI. This saves you both income tax AND National Insurance. It also saves your employer NI. Many employers pass some of that employer NI saving back to you as an extra pension contribution.</p>
+        <p><strong>Relief at source</strong> means your full salary is paid to you, your pension provider claims basic rate tax relief (20%) automatically from HMRC, and higher rate taxpayers need to claim the extra relief themselves via Self Assessment.</p>
+        <p>If you're not sure which one applies to you, check your payslip or ask your HR department. Salary sacrifice is now the most common arrangement.</p>
+        <div style="background:var(--t50);border:1px solid var(--t100);border-radius:8px;padding:.875rem 1rem;margin-top:.875rem">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+            <i class="ti ti-star" aria-hidden="true" style="font-size:14px;color:var(--t600)"></i>
+            <span style="font-size:12px;font-weight:500;color:var(--t600);letter-spacing:.04em;text-transform:uppercase">Pro tip</span>
+          </div>
+          <p style="font-size:13px;color:var(--t800);line-height:1.7;margin:0">Salary sacrifice saves you National Insurance as well as income tax — relief at source does not. On a £10,000 pension contribution via salary sacrifice, a higher rate taxpayer saves approximately £800 in NI on top of the income tax saving. Your employer also saves employer NI on the sacrifice amount — and many employers pass some or all of that saving back to you as an additional employer pension contribution. If your employer does this and you are not using salary sacrifice, ask your HR team — you may be missing free money added to your pension.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pill-group">
+      <button class="pill selected" onclick="selectPill(this,'pentype','sacrifice')" data-val="sacrifice">Salary sacrifice</button>
+      <button class="pill" onclick="selectPill(this,'pentype','relief')" data-val="relief">Relief at source</button>
+      <button class="pill" onclick="selectPill(this,'pentype','unknown')" data-val="unknown">Not sure</button>
+    </div>
+  </div>
+
+  <button class="next-btn" onclick="goStep(4)">Next — student loan <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  <a class="skip-link" onclick="skipPension()">I don't have a pension — skip this</a>
+</div>
+
+<!-- ═══ STEP 4 — STUDENT LOAN ═══ -->
+<div class="step-card" id="step-4">
+  <button class="back-btn" onclick="goStep(3)"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back</button>
+  <div class="q-number">Question 4 of 7</div>
+  <h1 class="q-title">Do you have a <em>student loan</em>?</h1>
+  <p class="q-subtitle">Student loan repayments are taken directly from your pay alongside income tax and NI — but many people don't realise how much it's actually costing them each month, or which plan they're on.</p>
+
+  <div class="explainer">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-school" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">How do student loan repayments work in the UK?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>This is one of the most misunderstood parts of the UK pay system. Student loan repayments are <strong>not based on how much you borrowed</strong> — they're calculated as a percentage of what you earn <em>above a threshold</em>. You only pay when you earn enough.</p>
+      <p><strong>The key insight:</strong> your monthly repayment is the same whether you owe £5,000 or £55,000. The balance doesn't affect your take-home — only your salary and which plan you're on matters.</p>
+      <p>Repayments are automatically deducted by your employer through PAYE — just like income tax. If you're not earning above the threshold in a given month, nothing is deducted. Repayments also stop if you lose your job or take a career break.</p>
+      <p>Loans are eventually <strong>written off</strong> — Plan 1 after 25 years or age 65, Plan 2 and Plan 5 after 30 years, Plan 4 after 30 years. Many people on Plan 2 will never fully repay their loan before write-off.</p>
+      <p>Not sure which plan you're on? Check your payslip — it will show "Student Loan Plan 1" or "Plan 2" etc. You can also check at studentloanrepayment.co.uk.</p>
+    </div>
+  </div>
+
+  <div class="pill-group" id="loan-pills">
+    <button class="pill wide selected" onclick="selectLoan(this,'none')" data-val="none">
+      <span class="pill-content"><span class="pill-label">No student loan</span><span class="pill-desc">No repayments being deducted from my pay</span></span>
+    </button>
+    <button class="pill wide" onclick="selectLoan(this,'plan1')" data-val="plan1">
+      <span class="pill-content"><span class="pill-label">Plan 1</span><span class="pill-desc">Started before September 2012 · 9% above £24,990/yr</span></span>
+    </button>
+    <button class="pill wide" onclick="selectLoan(this,'plan2')" data-val="plan2">
+      <span class="pill-content"><span class="pill-label">Plan 2</span><span class="pill-desc">Started Sep 2012 to Jul 2023 · 9% above £27,295/yr</span></span>
+    </button>
+    <button class="pill wide" onclick="selectLoan(this,'plan4')" data-val="plan4">
+      <span class="pill-content"><span class="pill-label">Plan 4 — Scotland</span><span class="pill-desc">Scottish students · 9% above £31,395/yr</span></span>
+    </button>
+    <button class="pill wide" onclick="selectLoan(this,'plan5')" data-val="plan5">
+      <span class="pill-content"><span class="pill-label">Plan 5</span><span class="pill-desc">Started August 2023 onwards · 9% above £25,000/yr</span></span>
+    </button>
+    <button class="pill wide" onclick="selectLoan(this,'pg')" data-val="pg">
+      <span class="pill-content"><span class="pill-label">Postgraduate loan</span><span class="pill-desc">Masters or doctoral loan · 6% above £21,000/yr · separate from undergraduate</span></span>
+    </button>
+  </div>
+
+  <div id="loan-insight" style="display:none;margin-bottom:1.5rem"></div>
+
+  <button class="next-btn" onclick="goStep(5)">Next — National Insurance <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  <a class="skip-link" onclick="goStep(5)">I don't have a student loan — skip</a>
+</div>
+
+<!-- ═══ STEP 5 — NATIONAL INSURANCE ═══ -->
+<div class="step-card" id="step-5">
+  <button class="back-btn" onclick="goStep(4)"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back</button>
+  <div class="q-number">Question 5 of 7</div>
+  <h1 class="q-title">Let's talk about <em>National Insurance</em></h1>
+  <p class="q-subtitle">If you've ever looked at your payslip and wondered what "NI" is and why it's separate from income tax — this page explains everything. It's one of the most commonly misunderstood parts of the UK pay system.</p>
+
+  <div class="explainer" style="margin-bottom:1rem">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-help-circle" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">What is National Insurance — and why does it exist?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p><strong>National Insurance (NI)</strong> was created in 1948 as part of the welfare state. The idea was simple: workers pay into a shared fund throughout their careers, and in return receive state benefits when they need them — including the NHS, State Pension, statutory sick pay, and maternity pay.</p>
+      <p>It was originally called a "contribution" rather than a tax — and technically it still is. Unlike income tax which goes into general government spending, NI contributions are linked to specific entitlements. This is why it's tracked separately on your payslip.</p>
+      <p>The practical reality today is that NI behaves much like a second income tax — it's deducted from your earnings automatically through PAYE, calculated on your gross pay, and there's nothing you need to do to claim it.</p>
+    </div>
+  </div>
+
+  <div class="explainer" style="margin-bottom:1rem">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-currency-pound" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">How much do I pay — and how is it calculated?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>For employees in 2025/26, National Insurance is charged at two rates depending on how much you earn:</p>
+      <p><strong>8%</strong> on earnings between £12,570 and £50,270 per year (the "main rate")</p>
+      <p><strong>2%</strong> on earnings above £50,270 per year (the "upper rate")</p>
+      <p>Below £12,570 you pay nothing — the same threshold as income tax.</p>
+      <p>One important difference from income tax: NI is calculated on your <strong>gross salary</strong>, not your adjusted net income. This means pension contributions reduce income tax but not NI — <em>unless</em> you use salary sacrifice, in which case your gross salary is reduced first and you save NI too. This is why salary sacrifice is usually more tax-efficient than relief at source.</p>
+    </div>
+  </div>
+
+  <div class="explainer" style="margin-bottom:1rem">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-building" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">What about employer National Insurance — the part most people don't know about?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>Here's the part that surprises most people who are new to the UK system: your employer also pays National Insurance on top of your salary — and you never see it on your payslip.</p>
+      <p>In 2025/26, employers pay <strong>15%</strong> on your earnings above £5,000 per year. This is completely separate from what you pay — it's an additional cost your employer bears on top of your salary.</p>
+      <p>For example, if your salary is £60,000, your employer pays approximately £8,250/year in employer NI on top of your salary. This means the <strong>true cost of employing you</strong> is around £68,250 — even though your payslip only shows £60,000.</p>
+      <p>This matters because it affects how employers think about pay rises, bonuses, and salary sacrifice. When you use salary sacrifice for your pension, your employer also saves employer NI — which is why many employers pass some of that saving back to you as an extra pension contribution.</p>
+    </div>
+  </div>
+
+  <div class="explainer" style="margin-bottom:1.5rem">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-clock" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">What do I get in return — and what counts towards my State Pension?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>Each year you pay NI (or are credited with NI), you build up a <strong>qualifying year</strong> towards your State Pension. You need <strong>35 qualifying years</strong> to receive the full new State Pension — currently £221.20 per week (£11,502/year) in 2025/26.</p>
+      <p>You need a minimum of <strong>10 qualifying years</strong> to receive any State Pension at all.</p>
+      <p>NI also qualifies you for: statutory sick pay (£116.75/week for up to 28 weeks), statutory maternity/paternity pay, and contribution-based jobseeker's allowance.</p>
+      <p>You can check your National Insurance record and State Pension forecast at gov.uk/check-national-insurance-record — it's worth doing, especially if you've had periods of self-employment, living abroad, or career breaks.</p>
+    </div>
+  </div>
+
+  <div id="ni-insight-wrap"></div>
+
+  <p style="font-size:13px;font-weight:500;color:var(--g900);margin-bottom:.75rem">Are you over State Pension age?</p>
+  <p style="font-size:13px;color:var(--g600);margin-bottom:1rem">The current State Pension age is <strong>66</strong> for both men and women. If you are over 66 and still working, you stop paying employee National Insurance entirely — even on a full salary. This can make a significant difference to your take-home pay.</p>
+  <div class="yes-no" id="spa-yn" style="margin-bottom:1.5rem">
+    <button class="yn-btn" id="spa-yes" onclick="setSPA(true)"><i class="ti ti-check" aria-hidden="true"></i>Yes, over 66</button>
+    <button class="yn-btn selected-no selected" id="spa-no" onclick="setSPA(false)"><i class="ti ti-x" aria-hidden="true"></i>No, under 66</button>
+  </div>
+
+  <div id="spa-insight" style="display:none;margin-bottom:1.5rem">
+    <div class="insight info">
+      <div class="insight-header"><i class="ti ti-star" aria-hidden="true"></i><span class="insight-title">You do not pay employee National Insurance</span></div>
+      <div class="insight-body">As you are over State Pension age, you are exempt from employee National Insurance contributions entirely — regardless of how much you earn. Your employer still pays employer NI on your earnings above £5,000, but nothing is deducted from your pay for NI. This is reflected in your estimated take-home on the results page.</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;font-weight:500;color:var(--g900);margin-bottom:.75rem">Have you had any gaps in your UK working history?</p>
+  <p style="font-size:13px;color:var(--g600);margin-bottom:1rem">Gaps in NI contributions — from living abroad, career breaks, self-employment, or time out of work — can reduce your State Pension entitlement. Select the option that best describes your situation.</p>
+
+  <div class="pill-group" id="ni-gap-pills" style="margin-bottom:1rem">
+    <button class="pill wide selected" onclick="selectNIGap(this,'none')" data-val="none">
+      <span class="pill-content"><span class="pill-label">Always worked in the UK</span><span class="pill-desc">Continuous UK employment — no known gaps</span></span>
+    </button>
+    <button class="pill wide" onclick="selectNIGap(this,'abroad')" data-val="abroad">
+      <span class="pill-content"><span class="pill-label">Lived or worked abroad</span><span class="pill-desc">Periods outside the UK may not count as qualifying years</span></span>
+    </button>
+    <button class="pill wide" onclick="selectNIGap(this,'gap')" data-val="gap">
+      <span class="pill-content"><span class="pill-label">Career break or gap</span><span class="pill-desc">Maternity leave, study, unemployment, or time out of work</span></span>
+    </button>
+    <button class="pill wide" onclick="selectNIGap(this,'self')" data-val="self">
+      <span class="pill-content"><span class="pill-label">Self-employed periods</span><span class="pill-desc">Self-employed NI — Class 2 rules changed from April 2024</span></span>
+    </button>
+    <button class="pill wide" onclick="selectNIGap(this,'unsure')" data-val="unsure">
+      <span class="pill-content"><span class="pill-label">Not sure</span><span class="pill-desc">I don't know my full NI contribution history</span></span>
+    </button>
+  </div>
+
+  <div id="ni-gap-insight" style="display:none;margin-bottom:1.5rem"></div>
+
+  <button class="next-btn" onclick="goStep(6)">Next — child benefit <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+</div>
+
+<!-- ═══ STEP 6 — CHILD BENEFIT ═══ -->
+<div class="step-card" id="step-6">
+  <button class="back-btn" onclick="goStep(5)"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back</button>
+  <div class="q-number">Question 6 of 7</div>
+  <h1 class="q-title">Do you or your partner receive <em>child benefit</em>?</h1>
+  <p class="q-subtitle">If your household income is above £60,000, you may be subject to the High Income Child Benefit Charge — a tax that effectively claws back child benefit through your Self Assessment tax return.</p>
+
+  <div class="explainer">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-users" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">What is the child benefit taper — and why does it matter?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>Child benefit is currently <strong>£25.60/week for the first child</strong> and <strong>£16.95/week for each additional child</strong> (2025/26 rates).</p>
+      <p>If the <strong>higher earner</strong> in a household has an adjusted net income above <strong>£60,000</strong>, a charge applies through Self Assessment that claws back 1% of child benefit for every £200 of income above £60,000. Above £80,000, the charge equals 100% of child benefit received.</p>
+      <p>This means a parent earning £75,000 with two children is effectively losing around £2,200/year in child benefit — which many people don't realise is happening. Pension contributions can reduce adjusted net income and reduce or eliminate this charge.</p>
+    </div>
+  </div>
+
+  <div class="yes-no" id="cb-yn">
+    <button class="yn-btn" id="cb-yes" onclick="setCBYN(true)"><i class="ti ti-check" aria-hidden="true"></i>Yes</button>
+    <button class="yn-btn selected-no selected" id="cb-no" onclick="setCBYN(false)"><i class="ti ti-x" aria-hidden="true"></i>No</button>
+  </div>
+
+  <div id="cb-detail" style="display:none;margin-bottom:1.5rem">
+    <p style="font-size:13px;color:var(--g600);margin-bottom:.75rem">How many children receive child benefit?</p>
+    <div class="pill-group">
+      <button class="pill selected" onclick="selectPill(this,'children',1)" data-val="1">1 child</button>
+      <button class="pill" onclick="selectPill(this,'children',2)" data-val="2">2 children</button>
+      <button class="pill" onclick="selectPill(this,'children',3)" data-val="3">3 children</button>
+      <button class="pill" onclick="selectPill(this,'children',4)" data-val="4">4 or more</button>
+    </div>
+  </div>
+
+  <button class="next-btn" onclick="goStep(7)">Next — bonus and final details <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+  <a class="skip-link" onclick="goStep(7)">Skip — not applicable</a>
+</div>
+
+<!-- ═══ STEP 7 — BONUS ═══ -->
+<div class="step-card" id="step-7">
+  <button class="back-btn" onclick="goStep(6)"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back</button>
+  <div class="q-number">Question 7 of 7 — last one</div>
+  <h1 class="q-title">Are you expecting a <em>bonus</em> this year?</h1>
+  <p class="q-subtitle">Bonuses are taxed as income — but there's often a more tax-efficient way to receive them. Understanding your bonus position is one of the most valuable insights we can show you.</p>
+
+  <div class="explainer">
+    <div class="explainer-toggle" onclick="toggleExplainer(this)">
+      <div class="explainer-toggle-left">
+        <i class="ti ti-cash" aria-hidden="true"></i>
+        <span class="explainer-toggle-text">How are bonuses taxed — and what is bonus sacrifice?</span>
+      </div>
+      <i class="ti ti-chevron-down explainer-toggle-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="explainer-body">
+      <p>A cash bonus is added to your income and taxed at your <strong>marginal rate</strong> — so if you're a higher rate taxpayer, 40% of every pound of bonus goes to income tax, plus NI on top. A £10,000 bonus might leave you with as little as £5,800.</p>
+      <p><strong>Bonus sacrifice</strong> is an arrangement where you sacrifice some or all of your bonus into your pension instead of taking it as cash. Because the bonus never becomes income, it avoids income tax and NI entirely — the full amount goes into your pension.</p>
+      <p>If you're in or near the <strong>£100k personal allowance taper zone</strong>, a bonus sacrifice can be especially powerful — it can bring your adjusted net income below £100,000 and recover your personal allowance, potentially saving significantly more than the bonus itself.</p>
+      <div style="background:var(--t50);border:1px solid var(--t100);border-radius:8px;padding:.875rem 1rem;margin-top:.875rem">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+          <i class="ti ti-star" aria-hidden="true" style="font-size:14px;color:var(--t600)"></i>
+          <span style="font-size:12px;font-weight:500;color:var(--t600);letter-spacing:.04em;text-transform:uppercase">Pro tip</span>
+        </div>
+        <p style="font-size:13px;color:var(--t800);line-height:1.7;margin:0">Most people only think about the income tax saving on a bonus sacrifice. But if sacrificing your bonus brings your adjusted net income below £100,000, you also recover your personal allowance — which is worth an additional £5,028 in tax savings (40% of £12,570). In other words, a £12,570 bonus sacrifice in the taper zone could be worth up to <strong>£7,540 in estimated total tax savings</strong> — not just the 40% many people assume. This is one of the most underused tax-efficiency opportunities available to UK higher earners, and almost nobody knows about it without being told.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="yes-no" id="bonus-yn">
+    <button class="yn-btn" id="bonus-yes" onclick="setBonusYN(true)"><i class="ti ti-check" aria-hidden="true"></i>Yes</button>
+    <button class="yn-btn selected-no selected" id="bonus-no" onclick="setBonusYN(false)"><i class="ti ti-x" aria-hidden="true"></i>No / not sure</button>
+  </div>
+
+  <div id="bonus-detail" style="display:none;margin-bottom:1.5rem">
+    <p style="font-size:13px;color:var(--g600);margin-bottom:.5rem">Approximate bonus amount this year</p>
+    <input type="number" class="number-input" id="bonus-input" placeholder="£0" min="0" oninput="state.bonus=parseInt(this.value)||0">
+    <p class="input-hint">Enter your expected gross bonus before any deductions</p>
+  </div>
+
+  <button class="next-btn" onclick="showResults()">See my tax-awareness overview <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div class="step-card" id="step-results">
+  <button class="back-btn" onclick="goStep(7)"><i class="ti ti-arrow-left" aria-hidden="true"></i>Back to questions</button>
+
+  <div class="results-header">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+      <div class="results-score" id="res-score-circle">
+        <span class="results-score-num" id="res-score-num">—</span>
+        <span class="results-score-label">/ 100</span>
+      </div>
+      <div style="flex:1;text-align:left">
+        <div style="font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--g400);margin-bottom:4px">Tax-awareness score</div>
+        <div class="results-title" id="res-title" style="text-align:left;font-size:1.2rem">—</div>
+        <div style="font-size:12px;color:var(--g400);margin-top:2px" id="res-flags-summary"></div>
+      </div>
+    </div>
+
+    <div style="background:var(--g50);border-radius:10px;padding:1rem;margin-bottom:.875rem">
+      <div style="font-size:12px;font-weight:500;color:var(--g800);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+        <i class="ti ti-calculator" aria-hidden="true" style="font-size:14px;color:var(--t600)"></i>
+        How your score was calculated
+      </div>
+      <div id="score-breakdown" style="display:flex;flex-direction:column;gap:5px"></div>
+      <div style="font-size:11px;color:var(--g400);margin-top:10px;padding-top:8px;border-top:1px solid var(--g200);line-height:1.5">Score is based on your inputs against publicly available 2025/26 HMRC rules. It reflects tax-efficiency opportunities relevant to your situation — not a judgement of your financial decisions. All figures are illustrative estimates. Not financial advice.</div>
+    </div>
+  </div>
+
+  <!-- TAKE HOME — full calculation chain -->
+  <div class="result-card" id="res-calc-chain">
+    <div class="rc-label">How your take-home pay is calculated</div>
+    <div id="res-chain-content"><!-- populated by JS --></div>
+  </div>
+
+  <!-- TRAP CARD -->
+  <div class="trap-result safe" id="res-trap">
+    <div class="tr-header">
+      <div class="tr-icon" id="res-trap-icon"><i class="ti ti-shield-check" id="res-trap-icon-i" aria-hidden="true"></i></div>
+      <div class="tr-title" id="res-trap-title">Personal allowance — no taper detected</div>
+    </div>
+    <div class="tr-body" id="res-trap-body">Your adjusted net income is below £100,000. Your full personal allowance of £12,570 applies.</div>
+    <div class="trap-meter" id="res-trap-meter" style="display:none"><div class="trap-meter-fill" id="res-trap-meter-fill" style="width:0%"></div></div>
+  </div>
+
+  <!-- CHILD BENEFIT RESULT -->
+  <div id="res-cb-card" style="display:none"></div>
+
+  <!-- BONUS RESULT -->
+  <div id="res-bonus-card" style="display:none"></div>
+
+  <!-- SCENARIOS -->
+  <div class="scenario-section">
+    <div class="sc-header">
+      <div class="sc-title">Illustrative pension scenarios</div>
+      <div class="sc-badge">tap a card to explore</div>
+    </div>
+    <p style="font-size:12px;color:var(--g600);margin-bottom:12px">Tap any scenario card to see a plain English explanation of what it means for your specific situation.</p>
+    <div class="sc-grid">
+      <div class="sc-col current" style="cursor:pointer" onclick="showScenarioPopup(1)">
+        <div class="sc-col-label">Your position</div>
+        <div class="sc-pension" id="sc1-pension">Pension: 0%</div>
+        <div class="sc-home" id="sc1-home">—</div>
+        <div class="sc-tax" id="sc1-tax">—</div>
+        <div style="font-size:11px;color:var(--t600);margin-top:6px">Tap to explore ↗</div>
+      </div>
+      <div class="sc-col" style="cursor:pointer" onclick="showScenarioPopup(2)">
+        <div class="sc-col-label">Scenario A</div>
+        <div class="sc-pension">Pension: 5%</div>
+        <div class="sc-home" id="sc2-home">—</div>
+        <div class="sc-tax" id="sc2-tax">—</div>
+        <div class="sc-diff" id="sc2-diff"></div>
+        <div style="font-size:11px;color:var(--g400);margin-top:6px">Tap to explore ↗</div>
+      </div>
+      <div class="sc-col" style="cursor:pointer;position:relative" onclick="showScenarioPopup(3)">
+        <div class="sc-col-label">Scenario B</div>
+        <div class="sc-pension">Pension: 10%</div>
+        <div class="sc-home" id="sc3-home">—</div>
+        <div class="sc-tax" id="sc3-tax">—</div>
+        <div class="sc-diff" id="sc3-diff"></div>
+        <div class="sc-locked" id="sc3-lock">
+          <i class="ti ti-lock" aria-hidden="true"></i>
+          <span>Unlock with Plus</span>
+        </div>
+      </div>
+    </div>
+    <div class="upgrade-bar">
+      <p><strong>Want to model your exact pension percentage, bonus sacrifice or Gift Aid?</strong> Unlock unlimited custom scenarios.</p>
+      <button class="upgrade-bar-btn" onclick="showModal()">Unlock Plus ↗</button>
+    </div>
+  </div>
+
+  <!-- SCENARIO POPUP -->
+  <div class="modal-bg" id="scenario-popup" style="display:none;align-items:flex-end">
+    <div class="modal-box" style="max-width:480px;width:100%;border-radius:16px 16px 0 0;max-height:85vh;overflow-y:auto;padding:1.5rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <div style="font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--g400)" id="sc-popup-label">Scenario</div>
+        <button onclick="closeScenarioPopup()" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--g400);padding:0;line-height:1">×</button>
+      </div>
+      <div id="sc-popup-content"></div>
+      <div style="font-size:11px;color:var(--g400);margin-top:1rem;line-height:1.6">Illustrative estimates based on your inputs and 2025/26 HMRC rules. Not financial advice.</div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="result-actions">
+    <button class="ra-btn ra-primary" onclick="showModal()"><i class="ti ti-file-text" aria-hidden="true"></i>Get full report — £19</button>
+    <button class="ra-btn ra-secondary" onclick="startOver()"><i class="ti ti-refresh" aria-hidden="true"></i>Start again</button>
+  </div>
+  <div style="text-align:center;margin-top:.875rem">
+    <a href="sample-report.html" style="font-size:12px;color:var(--t600);text-decoration:none">Not sure what the report contains? See a sample first ↗</a>
+  </div>
+
+  <div class="disclaimer">All figures are illustrative estimates based on your inputs and publicly available HMRC rules for the 2025/26 tax year. Individual circumstances vary. Tax rules may change. TaxLens does not provide financial, investment, tax or regulated advice. Before making financial decisions consider speaking to an FCA-authorised adviser or qualified tax professional. Operated by Jaydeep Karkare trading as TaxLens.</div>
+</div>
+
+</div><!-- end journey -->
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal-box">
+    <h3 class="modal-title">Unlock the full scenario explorer</h3>
+    <div class="modal-price">£19 <sub>one-off</sub></div>
+    <p class="modal-desc">Model any pension contribution, bonus sacrifice, Gift Aid and more. Your full personalised tax-awareness report — download and keep.</p>
+    <ul class="modal-list">
+      <li><i class="ti ti-check" aria-hidden="true"></i>Unlimited custom pension scenarios</li>
+      <li><i class="ti ti-check" aria-hidden="true"></i>Bonus sacrifice full comparison</li>
+      <li><i class="ti ti-check" aria-hidden="true"></i>Gift Aid adjusted net income impact</li>
+      <li><i class="ti ti-check" aria-hidden="true"></i>Full personalised PDF report</li>
+      <li><i class="ti ti-check" aria-hidden="true"></i>Year-end checklist and accountant questions</li>
+    </ul>
+    <button class="modal-cta" onclick="window.location.href='index.html'">Reserve my report — £19 ↗</button>
+    <button class="modal-close" onclick="closeModal()">Maybe later</button>
+    <a href="sample-report.html" style="display:block;text-align:center;font-size:12px;color:var(--t600);margin-top:.5rem;text-decoration:none">See what the report contains — sample preview ↗</a>
+    <p class="modal-fine">No payment taken now. Product in development. You will only be charged when the full report is ready and you choose to proceed.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <span class="footer-brand">TaxLens</span>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/cookies">Cookies</a>
+    </div>
+  </div>
+  <p class="footer-disclaimer">TaxLens provides educational simulations and illustrative estimates only. Not financial, investment, tax or regulated advice under FSMA 2000. Not FCA regulated. Operated by Jaydeep Karkare trading as TaxLens · privacy@taxlens.io · taxlens.io</p>
+</footer>
+
+<script>
+// ── STATE ──
+var state = {
+  salary: 60000,
+  salaryMode: 'year',
+  region: 'england',
+  hasPension: true,
+  pension: 3,
+  penType: 'sacrifice',
+  loan: 'none',
+  hasChildBenefit: false,
+  children: 1,
+  hasBonus: false,
+  bonus: 0,
+  overSPA: false,
+  niGap: 'none',
+  currentStep: 1
+};
+
+var TOTAL_STEPS = 7;
+var STEP_LABELS = [
+  'Your salary',
+  'Your region',
+  'Pension contributions',
+  'Student loan',
+  'National Insurance',
+  'Child benefit',
+  'Bonus'
+];
+
+// ── PROGRESS ──
+function buildDots() {
+  var wrap = document.getElementById('step-dots');
+  wrap.innerHTML = '';
+  for (var i = 1; i <= TOTAL_STEPS; i++) {
+    var d = document.createElement('div');
+    d.className = 'step-dot' + (i < state.currentStep ? ' done' : i === state.currentStep ? ' current' : '');
+    d.id = 'dot-' + i;
+    wrap.appendChild(d);
+  }
+}
+
+function updateProgress(step) {
+  state.currentStep = step;
+  var pct = Math.round(((step - 1) / TOTAL_STEPS) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '% complete';
+  document.getElementById('prog-label').textContent = 'Step ' + step + ' of ' + TOTAL_STEPS + ' — ' + (STEP_LABELS[step-1] || 'Results');
+  buildDots();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── NAVIGATION ──
+function goStep(n) {
+  document.querySelectorAll('.step-card').forEach(function(c) { c.classList.remove('active'); });
+  var el = document.getElementById('step-' + n);
+  if (el) {
+    el.classList.add('active');
+    updateProgress(n);
+  }
+  if (n === 5) buildNIInsight();
+}
+
+function startOver() {
+  state = { salary:60000, salaryMode:'year', region:'england', hasPension:true, pension:3, penType:'sacrifice', loan:'none', hasChildBenefit:false, children:1, hasBonus:false, bonus:0, currentStep:1 };
+  document.querySelectorAll('.step-card').forEach(function(c) { c.classList.remove('active'); });
+  document.getElementById('step-1').classList.add('active');
+  updateProgress(1);
+}
+
+// ── SALARY ──
+var fmt = function(n) { return '£' + Math.round(n).toLocaleString('en-GB'); };
+var salaryState = { daysPerWeek: 5, hoursPerDay: 8, hourDaysPerWeek: 5 };
+
+function setSalaryMode(mode, btn) {
+  state.salaryMode = mode;
+  btn.closest('.toggle-row').querySelectorAll('.toggle-opt').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  // Show/hide extra inputs
+  document.getElementById('day-extra').style.display = mode === 'day' ? 'block' : 'none';
+  document.getElementById('hour-extra').style.display = mode === 'hour' ? 'block' : 'none';
+  // Show/hide quick adjust buttons (less useful for day/hour mode)
+  document.getElementById('sal-quick-btns').style.display = (mode === 'day' || mode === 'hour') ? 'none' : 'flex';
+  // Update unit label
+  var units = { year: '/year', month: '/month', day: '/day', hour: '/hour' };
+  document.getElementById('sal-unit').textContent = units[mode];
+  // Reset input to a sensible default for the mode
+  var defaults = { year: 60000, month: 5000, day: 300, hour: 40 };
+  if (document.getElementById('sal-input').value == '' || mode !== state.salaryMode) {
+    document.getElementById('sal-input').value = defaults[mode];
+  }
+  onSalInput();
+}
+
+function calcAnnualFromMode() {
+  var val = parseFloat(document.getElementById('sal-input').value) || 0;
+  if (state.salaryMode === 'year') return val;
+  if (state.salaryMode === 'month') return val * 12;
+  if (state.salaryMode === 'day') return val * salaryState.daysPerWeek * 52;
+  if (state.salaryMode === 'hour') return val * salaryState.hoursPerDay * salaryState.hourDaysPerWeek * 52;
+  return val;
+}
+
+function setDaysPerWeek(val, btn) {
+  if (val === 'custom') {
+    document.getElementById('day-custom-wrap').style.display = 'block';
+    document.getElementById('day-custom-input').focus();
+    if (btn) {
+      document.querySelectorAll('#day-week-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+    }
+    return;
+  }
+  document.getElementById('day-custom-wrap').style.display = 'none';
+  salaryState.daysPerWeek = parseFloat(val) || 5;
+  if (btn) {
+    document.querySelectorAll('#day-week-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+  }
+  onSalInput();
+}
+
+function setHoursPerDay(val, btn) {
+  if (val === 'custom') {
+    document.getElementById('hour-custom-wrap').style.display = 'block';
+    document.getElementById('hour-custom-input').focus();
+    if (btn) {
+      document.querySelectorAll('#hours-day-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+    }
+    return;
+  }
+  document.getElementById('hour-custom-wrap').style.display = 'none';
+  salaryState.hoursPerDay = parseFloat(val) || 8;
+  if (btn) {
+    document.querySelectorAll('#hours-day-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+  }
+  onSalInput();
+}
+
+function setHourDaysPerWeek(val, btn) {
+  if (val === 'custom') {
+    document.getElementById('hour-day-custom-wrap').style.display = 'block';
+    document.getElementById('hour-day-custom-input').focus();
+    if (btn) {
+      document.querySelectorAll('#hour-week-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+    }
+    return;
+  }
+  document.getElementById('hour-day-custom-wrap').style.display = 'none';
+  salaryState.hourDaysPerWeek = parseFloat(val) || 5;
+  if (btn) {
+    document.querySelectorAll('#hour-week-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+  }
+  onSalInput();
+}
+
+function onSalInput() {
+  var annual = calcAnnualFromMode();
+  state.salary = Math.max(0, annual);
+  // Update range slider
+  document.getElementById('sal-range').value = Math.min(200000, Math.max(10000, annual));
+  // Update equiv line
+  document.getElementById('sal-equiv').textContent = fmt(annual/12) + '/month · ' + fmt(annual/52) + '/week · ' + fmt(annual/232) + '/day';
+  // Update day/hour preview
+  if (state.salaryMode === 'day') {
+    var rate = parseFloat(document.getElementById('sal-input').value) || 0;
+    document.getElementById('day-annual-preview').textContent =
+      fmt(rate) + '/day × ' + salaryState.daysPerWeek + ' days/week × 52 weeks = estimated ' + fmt(annual) + '/year';
+  }
+  if (state.salaryMode === 'hour') {
+    var hrate = parseFloat(document.getElementById('sal-input').value) || 0;
+    document.getElementById('hour-annual-preview').textContent =
+      fmt(hrate) + '/hr × ' + salaryState.hoursPerDay + ' hrs/day × ' + salaryState.hourDaysPerWeek + ' days/week × 52 weeks = estimated ' + fmt(annual) + '/year';
+  }
+}
+
+function onSalRange() {
+  state.salary = parseInt(document.getElementById('sal-range').value);
+  // In year/month mode update the input too
+  if (state.salaryMode === 'year') document.getElementById('sal-input').value = state.salary;
+  if (state.salaryMode === 'month') document.getElementById('sal-input').value = Math.round(state.salary / 12);
+  document.getElementById('sal-equiv').textContent = fmt(state.salary/12) + '/month · ' + fmt(state.salary/52) + '/week · ' + fmt(state.salary/232) + '/day';
+}
+
+function adjSal(amount) {
+  state.salary = Math.max(10000, Math.min(500000, state.salary + amount));
+  document.getElementById('sal-input').value = state.salaryMode === 'month' ? Math.round(state.salary/12) : state.salary;
+  document.getElementById('sal-range').value = Math.min(200000, Math.max(10000, state.salary));
+  document.getElementById('sal-equiv').textContent = fmt(state.salary/12) + '/month · ' + fmt(state.salary/52) + '/week · ' + fmt(state.salary/232) + '/day';
+}
+
+// ── PILLS ──
+function selectPill(btn, key, val) {
+  btn.closest('.pill-group').querySelectorAll('.pill').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  state[key] = val;
+  if (key === 'pension') document.getElementById('custom-pen-wrap').style.display = 'none';
+}
+
+// ── PENSION ──
+function setPensionYN(yes) {
+  state.hasPension = yes;
+  document.getElementById('pen-yes').className = yes ? 'yn-btn selected' : 'yn-btn';
+  document.getElementById('pen-no').className = yes ? 'yn-btn' : 'yn-btn selected-no selected';
+  document.getElementById('pension-detail').style.display = yes ? 'block' : 'none';
+  if (!yes) state.pension = 0;
+}
+
+function skipPension() {
+  state.hasPension = false;
+  state.pension = 0;
+  goStep(4);
+}
+
+function showCustomPension() {
+  document.querySelectorAll('#step-3 .pill-group:first-of-type .pill').forEach(function(b){ b.classList.remove('selected'); });
+  document.querySelectorAll('#step-3 .pill-group')[0].querySelectorAll('.pill')[6].classList.add('selected');
+  document.getElementById('custom-pen-wrap').style.display = 'block';
+  document.getElementById('custom-pen-input').focus();
+}
+
+function setCustomPen(val) {
+  var v = parseFloat(val);
+  if (!isNaN(v) && v >= 0 && v <= 80) state.pension = v;
+}
+
+// ── CHILD BENEFIT ──
+function setCBYN(yes) {
+  state.hasChildBenefit = yes;
+  document.getElementById('cb-yes').className = yes ? 'yn-btn selected' : 'yn-btn';
+  document.getElementById('cb-no').className = yes ? 'yn-btn' : 'yn-btn selected-no selected';
+  document.getElementById('cb-detail').style.display = yes ? 'block' : 'none';
+}
+
+// ── BONUS ──
+function setBonusYN(yes) {
+  state.hasBonus = yes;
+  document.getElementById('bonus-yes').className = yes ? 'yn-btn selected' : 'yn-btn';
+  document.getElementById('bonus-no').className = yes ? 'yn-btn' : 'yn-btn selected-no selected';
+  document.getElementById('bonus-detail').style.display = yes ? 'block' : 'none';
+}
+
+// ── STUDENT LOAN WITH REAL-TIME INSIGHT ──
+var loanThresholds = {none:0,plan1:24990,plan2:27295,plan4:31395,plan5:25000,pg:21000};
+var loanRates = {none:0,plan1:.09,plan2:.09,plan4:.09,plan5:.09,pg:.06};
+var loanNames = {none:'No loan',plan1:'Plan 1',plan2:'Plan 2',plan4:'Plan 4',plan5:'Plan 5',pg:'Postgraduate'};
+var loanWriteOff = {plan1:'25 years or age 65',plan2:'30 years',plan4:'30 years',plan5:'30 years',pg:'30 years'};
+
+function selectLoan(btn, plan) {
+  document.querySelectorAll('#loan-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  state.loan = plan;
+  var wrap = document.getElementById('loan-insight');
+  if (plan === 'none') {
+    wrap.style.display = 'none';
+    return;
+  }
+  var threshold = loanThresholds[plan];
+  var rate = loanRates[plan];
+  var annual = state.salary > threshold ? Math.round((state.salary - threshold) * rate) : 0;
+  var monthly = Math.round(annual / 12);
+  var daily = Math.round(annual / 232);
+  wrap.style.display = 'block';
+  if (annual === 0) {
+    wrap.innerHTML = '<div class="insight info"><div class="insight-header"><i class="ti ti-info-circle" aria-hidden="true"></i><span class="insight-title">No repayments estimated at your current salary</span></div><div class="insight-body">Your salary of <strong>' + fmt(state.salary) + '</strong> is below the ' + loanNames[plan] + ' repayment threshold of <strong>' + fmt(threshold) + '/year</strong>. Based on this, no student loan repayments would currently be deducted from your pay. Repayments begin automatically through PAYE if your salary rises above this threshold. <em>Illustrative estimate based on 2025/26 thresholds — not financial advice.</em></div></div>';
+  } else {
+    var pctOfSalary = (annual / state.salary * 100).toFixed(1);
+    wrap.innerHTML = '<div class="insight info"><div class="insight-header"><i class="ti ti-calculator" aria-hidden="true"></i><span class="insight-title">Illustrative ' + loanNames[plan] + ' repayment estimate</span></div><div class="insight-body">Based on your salary of <strong>' + fmt(state.salary) + '</strong>, your estimated student loan repayment is approximately:<br><br><strong>~' + fmt(monthly) + '/month</strong> · ~' + fmt(annual) + '/year · ~' + fmt(daily) + '/day<br><br>This represents approximately <strong>' + pctOfSalary + '%</strong> of your gross salary — deducted automatically through PAYE alongside income tax and NI.<br><br>Under current rules, this loan type is written off after <strong>' + loanWriteOff[plan] + '</strong> regardless of the remaining balance. Your outstanding balance does not affect your monthly repayment — only your salary and plan type matter for the calculation.<br><br><em>Illustrative estimate based on 2025/26 HMRC thresholds. Individual circumstances vary. Not financial advice.</em></div></div>';
+  }
+}
+
+// ── STATE PENSION AGE ──
+function setSPA(over66) {
+  state.overSPA = over66;
+  document.getElementById('spa-yes').className = over66 ? 'yn-btn selected' : 'yn-btn';
+  document.getElementById('spa-no').className = over66 ? 'yn-btn' : 'yn-btn selected-no selected';
+  document.getElementById('spa-insight').style.display = over66 ? 'block' : 'none';
+  buildNIInsight();
+}
+
+// ── NI GAPS ──
+function selectNIGap(btn, val) {
+  document.querySelectorAll('#ni-gap-pills .pill').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  state.niGap = val;
+  var wrap = document.getElementById('ni-gap-insight');
+  var content = '';
+  if (val === 'none') {
+    wrap.style.display = 'none';
+    return;
+  } else if (val === 'abroad') {
+    content = '<strong>Periods abroad may create gaps in your NI record.</strong> Time spent working in the EU, EEA or countries with reciprocal social security agreements with the UK may count towards your qualifying years — but this depends on the country and the type of work. Time spent outside these arrangements generally does not count.<br><br><strong>How to check your gaps:</strong><br>Log into your HMRC Personal Tax Account at <strong>gov.uk/personal-tax-account</strong> using your Government Gateway credentials. Under "National Insurance" you can see a year-by-year breakdown of your qualifying years, any gaps, and an estimate of your current State Pension entitlement.<br><br><strong>Important change from April 2026:</strong> Voluntary Class 2 NI contributions for periods abroad have been abolished. From 6 April 2026, the only way to fill gaps from time spent abroad is through <strong>voluntary Class 3 contributions at £18.40/week (£956.80/year)</strong> for 2026/27 — up from £3.50/week previously. The cost has risen more than fivefold.<br><br><strong>Tighter eligibility from April 2026:</strong> New applicants must now have either lived in the UK continuously for at least <strong>10 years</strong> or paid at least <strong>10 years of NI contributions</strong> in the UK. The previous requirement was just 3 years. HMRC will write to affected individuals from July 2026. Check your position at gov.uk/personal-tax-account.';
+  } else if (val === 'gap') {
+    content = '<strong>Career breaks may or may not create NI gaps</strong> — it depends on the reason.<br><br>You may receive <strong>NI credits</strong> automatically during: maternity, paternity or adoption leave, periods on statutory sick pay, time claiming certain benefits including Universal Credit, and periods caring for a child under 12 (Child Benefit credits).<br><br>You may have <strong>genuine gaps</strong> if you took voluntary time out of work, studied full time without claiming benefits, or worked abroad without equivalent NI credits.<br><br><strong>How to check:</strong> Log into your HMRC Personal Tax Account at <strong>gov.uk/personal-tax-account</strong>. Under "National Insurance" you will see exactly which years are qualifying, which have gaps, and whether voluntary contributions are available to fill them.';
+  } else if (val === 'self') {
+    content = '<strong>Self-employed NI works differently.</strong> Until April 2024, self-employed people paid Class 2 NI (a flat weekly rate) if profits exceeded the Small Profits Threshold. From April 2024, Class 2 NI became voluntary — but you are still treated as having paid it for State Pension purposes if your profits exceed the threshold.<br><br>If your self-employed profits were below the threshold in any year, that year may not be a qualifying year — even if you filed a Self Assessment return.<br><br><strong>How to check:</strong> Log into your HMRC Personal Tax Account at <strong>gov.uk/personal-tax-account</strong> and look at your NI record. You can also check your Self Assessment returns for years where Class 2 was included. If gaps exist, voluntary Class 3 contributions may be available to fill them.';
+  } else if (val === 'unsure') {
+    content = '<strong>The best way to know is to check directly with HMRC.</strong><br><br>Your full National Insurance record is available through your HMRC Personal Tax Account.<br><br><strong>To check your NI record:</strong><br>1. Go to gov.uk/personal-tax-account<br>2. Sign in with your Government Gateway user ID and password<br>3. Select National Insurance from the menu<br>4. You will see a year-by-year breakdown of your qualifying years, any gaps, and your State Pension forecast<br><br>The Government Gateway ID is the same one used for Self Assessment and HMRC online services. If you have ever filed a tax return online you already have one.';
+  }
+  wrap.style.display = 'block';
+  wrap.innerHTML = '<div class="insight info"><div class="insight-header"><i class="ti ti-shield-check" aria-hidden="true"></i><span class="insight-title">About your NI record and State Pension</span></div><div class="insight-body">' + content + '</div></div>';
+}
+
+// ── NI INSIGHT ──
+function buildNIInsight() {
+  var wrap = document.getElementById('ni-insight-wrap');
+  var r = calcTax(state.salary, state.hasPension ? state.pension : 0, state.penType, state.loan, state.region);
+  var niAnnual = r.ni;
+  var niMonthly = Math.round(niAnnual / 12);
+  var empNI = state.salary > 5000 ? Math.round((state.salary - 5000) * 0.15) : 0;
+  var trueCost = state.salary + empNI;
+  var margNI = state.overSPA ? '0% — exempt over State Pension age' : state.salary > 50270 ? '2%' : state.salary > 12570 ? '8%' : '0%';
+  var niLine = state.overSPA
+    ? '<strong>Estimated employee NI: £0/year</strong> — exempt as you are over State Pension age (66)'
+    : '<strong>Estimated employee NI: ~' + fmt(niAnnual) + '/year</strong> (~' + fmt(niMonthly) + '/month)<br>Marginal NI rate: <strong>' + margNI + '</strong>';
+  wrap.innerHTML = '<div class="insight info" style="margin-bottom:1rem"><div class="insight-header"><i class="ti ti-calculator" aria-hidden="true"></i><span class="insight-title">Illustrative National Insurance estimate — based on your inputs</span></div><div class="insight-body">Based on your salary of <strong>' + fmt(state.salary) + '</strong>:<br><br>' + niLine + '<br><br><strong>Estimated employer NI: ~' + fmt(empNI) + '/year</strong><br><strong>This does not come out of your pay.</strong> Your employer pays this entirely on top of your salary — you will never see it on your payslip and it does not reduce your take-home in any way. However it does affect the true cost of employing you, which influences pay rise decisions. It is also why salary sacrifice can save your employer money — and why some employers pass that saving back to you as an extra pension contribution.<br><br>Estimated total cost to your employer: approximately <strong>~' + fmt(trueCost) + '/year</strong> vs your salary of ' + fmt(state.salary) + '.<br><br><em>Illustrative estimates based on 2025/26 HMRC rates. Individual circumstances vary. Not financial advice.</em></div></div><div class="insight info"><div class="insight-header"><i class="ti ti-building-bank" aria-hidden="true"></i><span class="insight-title">What your NI contributions are building towards</span></div><div class="insight-body">Every year you pay NI — or are credited with NI — you build one <strong>qualifying year</strong> towards your State Pension. You need <strong>35 qualifying years</strong> to receive the full amount of <strong>£221.20/week (~£11,502/year for 2025/26 — rising to £241.30/week in 2026/27)</strong> under current rules.<br><br><strong>To check your NI record and State Pension forecast:</strong> log into your HMRC Personal Tax Account at <strong>gov.uk/personal-tax-account</strong> using your Government Gateway credentials. Under "National Insurance" you will see a year-by-year breakdown of qualifying years, any gaps, and options to fill them.</div></div>';
+}
+
+// ── TAX CALCULATION ──
+function calcTax(salary, pension, pensionType, loan, region) {
+  var penAmt = salary * (pension / 100);
+  var grossAfterSacrifice = pensionType === 'sacrifice' ? salary - penAmt : salary;
+  var ani = pensionType === 'sacrifice' ? grossAfterSacrifice : salary - penAmt;
+  var pa = 12570;
+  if (ani > 125140) pa = 0;
+  else if (ani > 100000) pa = Math.max(0, 12570 - Math.floor((ani - 100000) / 2));
+  var taxable = Math.max(0, ani - pa);
+  var tax = 0;
+  if (region === 'scotland') {
+    var bands = [[14876-12570,0.19],[26561-14876,0.20],[43662-26561,0.21],[75000-43662,0.42],[125140-75000,0.45],[Infinity,0.48]];
+    var rem = taxable;
+    for (var b = 0; b < bands.length; b++) { var chunk = Math.min(rem, bands[b][0]); tax += chunk * bands[b][1]; rem -= chunk; if (rem <= 0) break; }
+  } else {
+    var t = taxable;
+    if (t > 125140) { tax += (t-125140)*0.45; t=125140; }
+    if (t > 50270) { tax += (t-50270)*0.40; t=50270; }
+    if (t > 12570) { tax += (t-12570)*0.20; }
+  }
+  if (pensionType === 'relief') { var br = Math.min(penAmt, Math.max(0, taxable))*0.20; tax = Math.max(0, tax-br); }
+  var ni = 0;
+  if (!state.overSPA) {
+    if (grossAfterSacrifice > 50270) ni += (grossAfterSacrifice-50270)*0.02;
+    if (grossAfterSacrifice > 12570) ni += Math.min(grossAfterSacrifice-12570, 50270-12570)*0.08;
+  }
+  var slMap = {none:0,plan1:24990,plan2:27295,plan4:31395,plan5:25000,pg:21000};
+  var slRate = {none:0,plan1:.09,plan2:.09,plan4:.09,plan5:.09,pg:.06};
+  var sl = loan !== 'none' ? Math.max(0, salary-slMap[loan])*slRate[loan] : 0;
+  var total = tax+ni+penAmt+sl;
+  var takeHome = salary-total;
+  return {
+    takeHome:takeHome, tax:tax, ni:ni, pension:penAmt, studentLoan:sl,
+    effRate:salary>0?(tax+ni)/salary*100:0,
+    marginalRate:getMarginal(ani,region),
+    keepRate:salary>0?takeHome/salary*100:0,
+    ani:ani, pa:pa
+  };
+}
+
+function getMarginal(ani, region) {
+  if (region === 'scotland') {
+    if (ani>125140) return 48; if (ani>75000) return 45;
+    if (ani>43662) return 42; if (ani>26561) return 21;
+    if (ani>14876) return 20; if (ani>12570) return 19; return 0;
+  }
+  if (ani>125140) return 45;
+  if (ani>100000&&ani<=125140) return 60;
+  if (ani>50270) return 40;
+  if (ani>12570) return 20;
+  return 0;
+}
+
+// ── RESULTS ──
+function showResults() {
+  var r = calcTax(state.salary, state.hasPension ? state.pension : 0, state.penType, state.loan, state.region);
+
+  // ── BUILD CALCULATION CHAIN ──
+  var penNowAmt = state.hasPension ? Math.round(state.salary * (state.pension/100)) : 0;
+  var penNowPct = state.hasPension ? state.pension : 0;
+  var grossAfterPen = state.penType === 'sacrifice' ? state.salary - penNowAmt : state.salary;
+  var bonusAmt = state.hasBonus ? (state.bonus || 0) : 0;
+  var totalIncome = state.salary + bonusAmt;
+
+  // Tax band breakdown
+  var taxBands = [];
+  var ani = r.ani;
+  var pa = r.pa;
+  if (r.region === 'scotland') {
+    var sBands = [
+      {name:'Starter rate (19%)', from:12570, to:14876, rate:0.19},
+      {name:'Basic rate (20%)', from:14876, to:26561, rate:0.20},
+      {name:'Intermediate rate (21%)', from:26561, to:43662, rate:0.21},
+      {name:'Higher rate (42%)', from:43662, to:75000, rate:0.42},
+      {name:'Advanced rate (45%)', from:75000, to:125140, rate:0.45},
+      {name:'Top rate (48%)', from:125140, to:Infinity, rate:0.48}
+    ];
+    sBands.forEach(function(b) {
+      var low = Math.max(ani - pa <= b.to ? b.from : Infinity, pa);
+      var taxable = Math.max(0, Math.min(ani, b.to) - Math.max(pa, b.from));
+      if (taxable > 0) taxBands.push({name:b.name, taxable:Math.round(taxable), tax:Math.round(taxable*b.rate)});
+    });
+  } else {
+    if (ani > pa) {
+      var t1 = Math.min(ani, 50270) - pa;
+      if (t1 > 0) taxBands.push({name:'Basic rate (20%)', taxable:Math.round(t1), tax:Math.round(t1*0.20)});
+    }
+    if (ani > 50270) {
+      var t2 = Math.min(ani, 125140) - 50270;
+      if (t2 > 0) taxBands.push({name:'Higher rate (40%)', taxable:Math.round(t2), tax:Math.round(t2*0.40)});
+    }
+    if (ani > 125140) {
+      var t3 = ani - 125140;
+      if (t3 > 0) taxBands.push({name:'Additional rate (45%)', taxable:Math.round(t3), tax:Math.round(t3*0.45)});
+    }
+  }
+
+  // NI band breakdown
+  var niBands = [];
+  var niBase = grossAfterPen;
+  if (!state.overSPA) {
+    if (niBase > 12570) {
+      var ni1 = Math.round(Math.min(niBase, 50270) - 12570);
+      if (ni1 > 0) niBands.push({name:'Main rate (8%)', on:ni1, ni:Math.round(ni1*0.08)});
+    }
+    if (niBase > 50270) {
+      var ni2 = Math.round(niBase - 50270);
+      if (ni2 > 0) niBands.push({name:'Upper rate (2%)', on:ni2, ni:Math.round(ni2*0.02)});
+    }
+  }
+
+  // Student loan
+  var slNames = {plan1:'Plan 1',plan2:'Plan 2',plan4:'Plan 4',plan5:'Plan 5',pg:'Postgraduate'};
+  var slThresholds = {plan1:24990,plan2:27295,plan4:31395,plan5:25000,pg:21000};
+  var slRateMap = {plan1:.09,plan2:.09,plan4:.09,plan5:.09,pg:.06};
+  var slAmt = 0;
+  var slLine = '';
+  if (state.loan !== 'none') {
+    slAmt = Math.round(Math.max(0, state.salary - slThresholds[state.loan]) * slRateMap[state.loan]);
+    var slPct = state.loan === 'pg' ? '6%' : '9%';
+    slLine = slNames[state.loan] + ' — ' + slPct + ' on earnings above ' + fmt(slThresholds[state.loan]);
+  }
+
+  // Build chain HTML
+  var c = '';
+  var row = function(label, sub, bands, amount, cls) {
+    return '<div class="chain-row"><div class="chain-label"><strong>' + label + '</strong>' +
+      (sub ? '<span class="chain-sub">' + sub + '</span>' : '') +
+      (bands ? '<span class="chain-bands">' + bands + '</span>' : '') +
+      '</div><div class="chain-amount ' + (cls||'pos') + '">' + amount + '</div></div>';
+  };
+  var section = function(label) { return '<div class="chain-section">' + label + '</div>'; };
+
+  // GROSS PAY
+  c += section('Starting point');
+  c += row('Gross salary', 'Your full salary before anything is taken out', null, fmt(state.salary), 'pos');
+
+  // BONUS (if any)
+  if (bonusAmt > 0) {
+    c += row('Bonus', 'Added to your gross pay before tax is calculated', null, '+ ' + fmt(bonusAmt), 'pos');
+    c += row('Total gross income', null, null, fmt(totalIncome), 'pos');
+  }
+
+  // PENSION
+  if (penNowAmt > 0) {
+    c += section('Pension contribution');
+    if (state.penType === 'sacrifice') {
+      c += row(
+        'Pension — salary sacrifice (' + penNowPct + '%)',
+        'Taken from your gross pay before tax is calculated. This reduces the income HMRC taxes you on — so you save tax and National Insurance on this amount.',
+        null,
+        '− ' + fmt(penNowAmt),
+        'pen'
+      );
+      c += row('Taxable income after pension', 'HMRC calculates your tax on this lower amount — not your full salary', null, fmt(grossAfterPen + bonusAmt), 'pos');
+    } else {
+      c += row(
+        'Pension — relief at source (' + penNowPct + '%)',
+        'Deducted after tax is calculated. Your pension provider claims basic rate relief (20%) from HMRC automatically. If you pay higher rate tax, you may be able to claim the extra 20% via Self Assessment.',
+        null,
+        '− ' + fmt(penNowAmt),
+        'pen'
+      );
+    }
+  }
+
+  // TAX FREE ALLOWANCE
+  c += section('Tax-free allowance');
+  c += row(
+    'Personal allowance',
+    'Everyone in the UK gets this amount completely tax-free each year — you pay no income tax on the first ' + fmt(pa),
+    null,
+    fmt(pa) + ' tax-free',
+    'pen'
+  );
+  var taxableInc = Math.max(0, ani + bonusAmt - pa);
+  c += row('Income tax is calculated on', 'Total income minus your tax-free allowance', null, fmt(taxableInc), 'pos');
+
+  // INCOME TAX
+  c += section('Income tax breakdown');
+  if (taxBands.length === 0) {
+    c += row('No income tax', 'Your income is below the personal allowance — no income tax applies', null, '£0', 'pen');
+  } else {
+    var bandsText = taxBands.map(function(b){ return b.name + ': ' + fmt(b.taxable) + ' taxed at rate above → ' + fmt(b.tax); }).join('<br>');
+    c += row(
+      'Income tax — total: ' + fmt(r.tax),
+      'Calculated in bands — you only pay the higher rate on the portion of income in that band, not on everything',
+      bandsText,
+      '− ' + fmt(r.tax),
+      'ded'
+    );
+  }
+
+  // NI
+  c += section('National Insurance');
+  if (state.overSPA) {
+    c += row('National Insurance', 'You are over State Pension age — no employee NI applies', null, '£0', 'pen');
+  } else if (niBands.length === 0) {
+    c += row('National Insurance', 'Your income is below the NI threshold — no NI applies', null, '£0', 'pen');
+  } else {
+    var niBandsText = niBands.map(function(b){ return b.name + ': on ' + fmt(b.on) + ' → ' + fmt(b.ni); }).join('<br>');
+    c += row(
+      'National Insurance — total: ' + fmt(r.ni),
+      'Calculated on your gross salary (or salary after sacrifice). NI funds your State Pension and NHS entitlement.',
+      niBandsText,
+      '− ' + fmt(r.ni),
+      'ded'
+    );
+  }
+
+  // STUDENT LOAN
+  if (slAmt > 0) {
+    c += section('Student loan repayment');
+    c += row('Student loan — ' + slNames[state.loan], slLine, null, '− ' + fmt(slAmt), 'ded');
+  }
+
+  // TAKE HOME
+  c += '<div class="chain-row takehome-row"><div class="chain-label"><strong>Estimated take-home pay</strong><span class="chain-sub">What lands in your bank account each month after all deductions</span></div><div class="chain-amount th">' + fmt(r.takeHome/12) + '/mo</div></div>';
+  c += '<div style="font-size:12px;color:var(--g400);padding:8px 0;line-height:1.6">' + fmt(r.takeHome) + '/year · effective rate ' + r.effRate.toFixed(1) + '% · you keep ' + Math.round(r.keepRate) + '% of your gross salary</div>';
+
+  // BONUS COMPARISON (if applicable)
+  if (bonusAmt > 0) {
+    var bTax = Math.round(bonusAmt * (r.marginalRate/100));
+    var bNI = grossAfterPen < 50270 ? Math.round(bonusAmt * 0.08) : Math.round(bonusAmt * 0.02);
+    var bCash = bonusAmt - bTax - bNI;
+    c += '<div class="chain-bonus-wrap"><div class="chain-bonus-title">Your bonus — two ways</div>';
+    c += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    c += '<div style="background:white;border-radius:8px;padding:10px">';
+    c += '<div style="font-size:11px;font-weight:500;color:#854F0B;margin-bottom:6px">As cash</div>';
+    c += '<div style="font-size:12px;color:var(--g700);line-height:1.6">Gross bonus<br><strong>' + fmt(bonusAmt) + '</strong></div>';
+    c += '<div style="font-size:12px;color:var(--red);line-height:1.6;margin-top:4px">Tax (' + r.marginalRate + '%): − ' + fmt(bTax) + '<br>NI: − ' + fmt(bNI) + '</div>';
+    c += '<div style="font-size:13px;font-weight:500;color:var(--g900);margin-top:6px;padding-top:6px;border-top:1px solid var(--g100)">You keep: ' + fmt(bCash) + '</div>';
+    c += '</div>';
+    c += '<div style="background:white;border-radius:8px;padding:10px">';
+    c += '<div style="font-size:11px;font-weight:500;color:#0F6E56;margin-bottom:6px">Into pension</div>';
+    c += '<div style="font-size:12px;color:var(--g700);line-height:1.6">Gross bonus<br><strong>' + fmt(bonusAmt) + '</strong></div>';
+    c += '<div style="font-size:12px;color:#1D9E75;line-height:1.6;margin-top:4px">No tax deducted<br>No NI deducted</div>';
+    c += '<div style="font-size:13px;font-weight:500;color:#0F6E56;margin-top:6px;padding-top:6px;border-top:1px solid var(--g100)">Pension gets: ' + fmt(bonusAmt) + '</div>';
+    c += '</div>';
+    c += '</div>';
+    c += '<div style="font-size:11px;color:#854F0B;margin-top:8px;line-height:1.5">Illustrative estimates based on your marginal rate. Pension route puts ' + fmt(bonusAmt - bCash) + ' more to work for your future. Not financial advice.</div>';
+    c += '</div>';
+  }
+
+  c += '<div style="font-size:11px;color:var(--g400);margin-top:8px;line-height:1.5">All figures are illustrative estimates based on your inputs and publicly available 2025/26 HMRC rules. Not financial advice.</div>';
+
+  document.getElementById('res-chain-content').innerHTML = c;
+
+  // ── SCORE CALCULATION ──
+  // Only deduct for genuine identified gaps — not reminders or lifestyle choices
+  var score = 100;
+  var deductions = [];
+  var notices = [];
+  var penNow = state.hasPension ? state.pension : 0;
+
+  // DEDUCTION 1 — In the taper zone with no meaningful pension offsetting it
+  if (r.ani > 100000 && r.ani <= 125140) {
+    if (penNow < 5) {
+      score -= 25;
+      deductions.push({ pts: -25, label: 'In the personal allowance taper zone with no pension contribution reducing adjusted net income — effective marginal rate is approximately 60%', color: 'danger' });
+    } else {
+      score -= 10;
+      deductions.push({ pts: -10, label: 'In the personal allowance taper zone — pension contribution partially reduces adjusted net income but some exposure remains', color: 'warn' });
+    }
+  }
+
+  // DEDUCTION 2 — Approaching £100k with no pension buffer
+  if (r.ani > 90000 && r.ani <= 100000 && penNow < 5) {
+    score -= 8;
+    deductions.push({ pts: -8, label: 'Within £' + Math.round(100000 - r.ani).toLocaleString('en-GB') + ' of the £100k threshold with no pension contribution — a bonus or pay rise could trigger the 60% effective rate', color: 'warn' });
+  }
+
+  // DEDUCTION 3 — Higher rate taxpayer with zero pension
+  if (r.ani > 50270 && penNow === 0 && r.ani <= 100000) {
+    score -= 15;
+    deductions.push({ pts: -15, label: 'Higher rate taxpayer with no pension contribution — 40% tax relief is available on contributions but currently unclaimed', color: 'danger' });
+  }
+
+  // DEDUCTION 4 — Relief at source with higher rate income — extra relief likely unclaimed
+  if (r.ani > 50270 && penNow > 0 && state.penType === 'relief') {
+    score -= 10;
+    deductions.push({ pts: -10, label: 'Relief at source pension — the additional 20% higher rate relief must be claimed separately via Self Assessment and is commonly missed', color: 'warn' });
+  }
+
+  // DEDUCTION 5 — Child benefit taper actively applies
+  if (state.hasChildBenefit && r.ani > 60000) {
+    var cbDeduct = r.ani >= 80000 ? 15 : 8;
+    score -= cbDeduct;
+    deductions.push({
+      pts: -cbDeduct,
+      label: r.ani >= 80000
+        ? 'Child benefit fully recovered through the High Income Child Benefit Charge — the full amount is clawed back through Self Assessment'
+        : 'High Income Child Benefit Charge applies — approximately ' + Math.round((r.ani - 60000) / 20000 * 100) + '% of child benefit is being recovered through Self Assessment',
+      color: r.ani >= 80000 ? 'danger' : 'warn'
+    });
+  }
+
+  // DEDUCTION 6 — Bonus as cash while in the taper zone
+  if (state.hasBonus && state.bonus > 0 && r.ani > 100000 && r.ani <= 125140) {
+    score -= 10;
+    deductions.push({ pts: -10, label: 'Bonus expected while in the taper zone — taking it as cash deepens personal allowance withdrawal; sacrifice into pension could recover allowance worth up to an additional £5,028 in estimated tax saving', color: 'danger' });
+  }
+
+  // DEDUCTION 7 — Personal allowance fully withdrawn with no pension
+  if (r.ani > 125140 && penNow < 5) {
+    score -= 8;
+    deductions.push({ pts: -8, label: 'Personal allowance fully withdrawn with no pension contribution — at 45% rate, pension contributions reduce taxable income directly', color: 'warn' });
+  }
+
+  // NOTICES — shown below the score breakdown but do NOT affect the score
+  if (state.hasBonus && state.bonus > 0 && r.ani > 50270 && !(r.ani > 100000 && r.ani <= 125140)) {
+    notices.push('Bonus expected — at higher rate, bonus sacrifice into pension avoids 40% income tax and NI on the sacrificed amount. Explore this in the scenario explorer.');
+  }
+  notices.push('ISA allowance: £20,000 resets on 5 April — tax-free growth from your first contribution. Unused allowance cannot be carried forward.');
+  if (state.loan !== 'none') {
+    var slT = { plan1:24990, plan2:27295, plan4:31395, plan5:25000, pg:21000 };
+    if (state.salary > slT[state.loan] && state.salary < slT[state.loan] + 10000) {
+      notices.push('Your salary is within £10,000 of your student loan repayment threshold — small salary changes have a proportionally large effect on repayments.');
+    }
+  }
+
+  score = Math.max(10, Math.min(100, score));
+
+  // Score label and colour
+  var scoreColor;
+  if (score >= 85) { scoreColor = '#0F6E56'; }
+  else if (score >= 70) { scoreColor = '#0F6E56'; }
+  else if (score >= 50) { scoreColor = '#854F0B'; }
+  else { scoreColor = '#A32D2D'; }
+
+  var scoreLabel = score >= 85 ? 'Well positioned' : score >= 70 ? 'Some areas worth exploring' : score >= 50 ? 'Several areas worth understanding' : 'Significant areas to explore';
+
+  document.getElementById('res-score-num').textContent = score;
+  document.getElementById('res-title').textContent = scoreLabel;
+  document.getElementById('res-flags-summary').textContent = deductions.length === 0
+    ? 'No gaps identified from your inputs'
+    : deductions.length + ' gap' + (deductions.length !== 1 ? 's' : '') + ' identified from your inputs — see breakdown below';
+
+  // Build score breakdown
+  var breakdownEl = document.getElementById('score-breakdown');
+  var rowStyle = 'display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid #F0F0F0';
+  var html = '<div style="' + rowStyle + '"><span style="font-size:12px;color:#666">Starting score</span><span style="font-size:12px;font-weight:500;color:#1a1a1a">100 pts</span></div>';
+
+  if (deductions.length === 0) {
+    html += '<div style="padding:8px 0;font-size:12px;color:#0F6E56">No gaps identified from your inputs — your score remains at 100.</div>';
+  } else {
+    deductions.forEach(function(d) {
+      var col = d.color === 'danger' ? '#A32D2D' : d.color === 'warn' ? '#854F0B' : '#0F6E56';
+      html += '<div style="' + rowStyle + '"><span style="font-size:12px;color:' + col + ';flex:1;padding-right:8px;line-height:1.5">' + d.label + '</span><span style="font-size:12px;font-weight:500;color:' + col + ';white-space:nowrap">' + d.pts + ' pts</span></div>';
+    });
+  }
+
+  html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;margin-top:2px"><span style="font-size:13px;font-weight:500;color:#1a1a1a">Your score</span><span style="font-size:16px;font-weight:500;color:' + scoreColor + '">' + score + ' / 100</span></div>';
+
+  if (notices.length > 0) {
+    html += '<div style="margin-top:10px;padding-top:8px;border-top:2px solid #F0F0F0"><div style="font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:#999;margin-bottom:6px">Awareness notices — not scored</div>';
+    notices.forEach(function(n) {
+      html += '<div style="font-size:12px;color:#0F6E56;padding:5px 0;border-bottom:1px solid #F0F0F0;line-height:1.5">' + n + '</div>';
+    });
+    html += '</div>';
+  }
+
+  breakdownEl.innerHTML = html;
+
+  // Score circle colour
+  var circle = document.getElementById('res-score-circle');
+  circle.style.background = score >= 70 ? '#0F6E56' : score >= 50 ? '#EF9F27' : '#E24B4A';
+
+  // Trap
+  var trap = document.getElementById('res-trap');
+  var trapIcon = document.getElementById('res-trap-icon');
+  var trapIconI = document.getElementById('res-trap-icon-i');
+  var trapTitle = document.getElementById('res-trap-title');
+  var trapBody = document.getElementById('res-trap-body');
+  var trapMeter = document.getElementById('res-trap-meter');
+  var trapFill = document.getElementById('res-trap-meter-fill');
+
+  if (r.ani > 100000 && r.ani <= 125140) {
+    trap.className = 'trap-result danger';
+    trapIcon.className = 'tr-icon';
+    trapIconI.className = 'ti ti-alert-circle';
+    trapTitle.textContent = 'Heads up — you are in a tax trap';
+    var depth = r.ani - 100000;
+    trapBody.innerHTML = 'In the UK, everyone gets a tax-free allowance of £12,570 — meaning you pay no income tax on the first £12,570 you earn. But once your income goes above £100,000, HMRC gradually takes that allowance away. For every £2 you earn above £100,000, you lose £1 of your tax-free allowance.<br><br>Based on your inputs, your income is estimated at <strong>' + fmt(r.ani) + '</strong> — that is <strong>' + fmt(depth) + '</strong> above the £100,000 point where this starts. Your tax-free allowance has shrunk from £12,570 to just <strong>' + fmt(r.pa) + '</strong>. This means you are effectively paying around <strong>60p in tax for every extra £1</strong> you earn in this range — not the 40p most people assume. Unlock the scenario explorer to see what different pension contribution levels would do to this.';
+    trapMeter.style.display = 'block';
+    trapFill.style.width = Math.min(100, Math.round(depth/25140*100)) + '%';
+  } else if (r.ani > 80000 && r.ani <= 100000) {
+    trap.className = 'trap-result warn';
+    trapIcon.className = 'tr-icon';
+    trapIconI.className = 'ti ti-alert-triangle';
+    trapTitle.textContent = 'Worth knowing — you are getting close to a tax trap';
+    trapBody.innerHTML = 'In the UK, everyone gets a tax-free allowance of £12,570 — the first £12,570 you earn is completely free of income tax. However once your income reaches £100,000, HMRC starts taking that allowance away — and the tax rate on earnings in that range can reach around 60%.<br><br>Based on your inputs, your estimated income is <strong>' + fmt(r.ani) + '</strong> — just <strong>' + fmt(100000-r.ani) + '</strong> away from where this starts. A pay rise, bonus, or any extra income could push you into that zone without you realising it. Good to be aware of now rather than at the end of the tax year.';
+    trapMeter.style.display = 'block';
+    trapFill.style.width = Math.round((r.ani-80000)/20000*100) + '%';
+  } else if (r.ani > 125140) {
+    trap.className = 'trap-result warn';
+    trapIcon.className = 'tr-icon';
+    trapIconI.className = 'ti ti-info-circle';
+    trapTitle.textContent = 'Your tax-free allowance has been fully removed';
+    trapBody.innerHTML = 'Everyone in the UK normally gets a tax-free allowance of £12,570 — meaning you pay no income tax on the first £12,570 you earn. But above £125,140 HMRC removes that allowance entirely, which means every pound of your income is taxed. Based on your inputs, your estimated income is <strong>' + fmt(r.ani) + '</strong>. The good news is that pension contributions still reduce the income you pay tax on — so they can be particularly valuable at this level.';
+    trapMeter.style.display = 'none';
+  } else {
+    trap.className = 'trap-result safe';
+    trapIcon.className = 'tr-icon';
+    trapIconI.className = 'ti ti-shield-check';
+    trapTitle.textContent = 'You are clear of the £100k tax trap';
+    trapBody.innerHTML = 'Everyone in the UK gets a tax-free allowance of £12,570 — meaning you pay no income tax on the first £12,570 you earn each year. Based on your inputs, your estimated income is <strong>' + fmt(r.ani) + '</strong>, which is well below the £100,000 point where HMRC starts reducing this allowance. Your full tax-free amount of £12,570 applies. No action needed here.';
+    trapMeter.style.display = 'none';
+  }
+
+  // Child benefit card
+  var cbCard = document.getElementById('res-cb-card');
+  if (state.hasChildBenefit && r.ani > 60000) {
+    var cbWeekly = (state.children >= 1 ? 25.60 : 0) + (state.children > 1 ? (state.children-1)*16.95 : 0);
+    var cbAnnual = cbWeekly * 52;
+    var charge = r.ani >= 80000 ? cbAnnual : Math.round((r.ani-60000)/20000 * cbAnnual);
+    cbCard.style.display = 'block';
+    cbCard.innerHTML = '<div class="insight warning"><div class="insight-header"><i class="ti ti-alert-triangle" aria-hidden="true"></i><span class="insight-title">Your child benefit is being clawed back</span></div><div class="insight-body">Child benefit is a regular government payment for families with children — currently around <strong>' + fmt(cbAnnual) + '/year</strong> based on your number of children. However once the higher earner in a household earns above £60,000, HMRC starts taking it back through an extra charge on your tax return. Above £80,000 it is taken back entirely.<br><br>Based on your estimated income of <strong>' + fmt(r.ani) + '</strong>, approximately <strong>' + fmt(charge) + '/year</strong> of your child benefit is being taken back this way — money you may not even realise you are losing. This happens quietly through Self Assessment rather than showing up on your payslip.</div></div>';
+  } else {
+    cbCard.style.display = 'none';
+  }
+
+  // Bonus card
+  var bonusCard = document.getElementById('res-bonus-card');
+  if (state.hasBonus && state.bonus > 0) {
+    var marginal = r.marginalRate;
+    var bonusTax = Math.round(state.bonus * (marginal/100));
+    var bonusNI = state.salary < 50270 ? Math.round(state.bonus * 0.08) : Math.round(state.bonus * 0.02);
+    var cashBonus = state.bonus - bonusTax - bonusNI;
+    var taxLost = state.bonus - cashBonus;
+    bonusCard.style.display = 'block';
+    bonusCard.innerHTML = '<div class="insight info"><div class="insight-header"><i class="ti ti-cash" aria-hidden="true"></i><span class="insight-title">What happens to your bonus</span></div><div class="insight-body">You mentioned a bonus of approximately <strong>' + fmt(state.bonus) + '</strong>. Here is what that means in simple terms:<br><br><strong>If you take it as cash:</strong> the government treats a bonus exactly like salary — so tax and National Insurance are deducted before it reaches you. Based on your income level, you would keep an estimated <strong>' + fmt(cashBonus) + '</strong> and roughly <strong>' + fmt(taxLost) + '</strong> would go to HMRC.<br><br><strong>If you put it into your pension instead:</strong> the full <strong>' + fmt(state.bonus) + '</strong> goes into your pension pot — none of it is taxed first. You get less money now, but significantly more going towards your future.<br><br>Which is better depends on your personal situation. The full comparison is available in the scenario explorer.</div></div>';
+  } else {
+    bonusCard.style.display = 'none';
+  }
+
+  // Scenarios
+  var penNow = state.hasPension ? state.pension : 0;
+  var r0 = calcTax(state.salary, penNow, state.penType, state.loan, state.region);
+  var r5 = calcTax(state.salary, 5, state.penType, state.loan, state.region);
+  var r10 = calcTax(state.salary, 10, state.penType, state.loan, state.region);
+
+  document.getElementById('sc1-pension').textContent = 'Pension: ' + penNow + '%';
+  document.getElementById('sc1-home').textContent = fmt(r0.takeHome/12) + '/mo';
+  document.getElementById('sc1-tax').textContent = 'Tax + NI: ' + fmt(r0.tax+r0.ni) + '/yr';
+
+  document.getElementById('sc2-home').textContent = fmt(r5.takeHome/12) + '/mo';
+  document.getElementById('sc2-tax').textContent = 'Tax + NI: ' + fmt(r5.tax+r5.ni) + '/yr';
+  var d5 = r5.takeHome - r0.takeHome;
+  document.getElementById('sc2-diff').textContent = (d5>10?'+':d5<-10?'':'') + (Math.abs(d5)>10 ? fmt(d5)+'/yr vs current' : 'Same as current');
+
+  document.getElementById('sc3-home').textContent = fmt(r10.takeHome/12) + '/mo';
+  document.getElementById('sc3-tax').textContent = 'Tax + NI: ' + fmt(r10.tax+r10.ni) + '/yr';
+  var d10 = r10.takeHome - r0.takeHome;
+  document.getElementById('sc3-diff').textContent = (d10>0?'+':'') + fmt(d10) + '/yr vs current';
+
+  // Show results
+  document.querySelectorAll('.step-card').forEach(function(c){ c.classList.remove('active'); });
+  document.getElementById('step-results').classList.add('active');
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-pct').textContent = '100% complete';
+  document.getElementById('prog-label').textContent = 'Your tax-awareness overview';
+  buildDots();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── EXPLAINER TOGGLE ──
+function toggleExplainer(toggle) {
+  var thisExplainer = toggle.closest('.explainer');
+  var thisBody = thisExplainer.querySelector('.explainer-body');
+  var thisArrow = toggle.querySelector('.explainer-toggle-arrow');
+  var isOpen = thisBody.classList.contains('open');
+
+  // Close all other explainers on the same step card
+  var stepCard = thisExplainer.closest('.step-card');
+  if (stepCard) {
+    stepCard.querySelectorAll('.explainer').forEach(function(exp) {
+      if (exp !== thisExplainer) {
+        var body = exp.querySelector('.explainer-body');
+        var arrow = exp.querySelector('.explainer-toggle-arrow');
+        if (body) body.classList.remove('open');
+        if (arrow) arrow.classList.remove('open');
+      }
+    });
+  }
+
+  // Toggle this one
+  thisBody.classList.toggle('open', !isOpen);
+  if (thisArrow) thisArrow.classList.toggle('open', !isOpen);
+}
+
+// ── SCENARIO POPUP ──
+var scData = {};
+
+function showScenarioPopup(num) {
+  if (num === 3) { showModal(); return; }
+
+  var popup = document.getElementById('scenario-popup');
+  var label = document.getElementById('sc-popup-label');
+  var content = document.getElementById('sc-popup-content');
+
+  var penNow = state.hasPension ? state.pension : 0;
+  var r0 = calcTax(state.salary, penNow, state.penType, state.loan, state.region);
+  var r5 = calcTax(state.salary, 5, state.penType, state.loan, state.region);
+
+  var html = '';
+
+  if (num === 1) {
+    // Current position popup
+    label.textContent = 'Your current position';
+    var effRate = r0.effRate.toFixed(1);
+    var keepRate = Math.round(r0.keepRate);
+    html += '<div style="margin-bottom:1rem">';
+    html += '<div style="font-size:1.5rem;font-weight:500;color:#0F6E56;margin-bottom:4px">' + fmt(r0.takeHome/12) + '/month</div>';
+    html += '<div style="font-size:13px;color:#666">' + fmt(r0.takeHome) + '/year take-home</div>';
+    html += '</div>';
+
+    html += buildPopupRow('Gross salary', fmt(state.salary) + '/year');
+    html += buildPopupRow('Pension contribution', penNow + '% (' + fmt(r0.pension) + '/year)');
+    html += buildPopupRow('Income tax', fmt(r0.tax) + '/year');
+    html += buildPopupRow('National Insurance', fmt(r0.ni) + '/year');
+    if (r0.studentLoan > 0) html += buildPopupRow('Student loan', fmt(r0.studentLoan) + '/year');
+    html += buildPopupRow('Effective tax rate', effRate + '%');
+    html += buildPopupRow('Keep rate', keepRate + '% of every £1 earned');
+
+    html += '<div style="background:#F0F9F6;border-radius:10px;padding:1rem;margin-top:1rem">';
+    html += '<div style="font-size:12px;font-weight:500;color:#0F6E56;margin-bottom:6px">What this means</div>';
+    html += '<div style="font-size:13px;color:#085041;line-height:1.7">';
+    if (penNow === 0) {
+      html += 'You are currently not contributing to a pension. This means the full tax and NI burden applies to your entire salary. Tap Scenario A to see what a 5% pension contribution would change.';
+    } else {
+      html += 'Your ' + penNow + '% pension contribution reduces the income HMRC taxes you on. Of every £1 you earn, you keep approximately ' + keepRate + 'p after tax, NI and pension.';
+    }
+    if (r0.ani > 100000 && r0.ani <= 125140) {
+      html += ' Your estimated income of ' + fmt(r0.ani) + ' is in the personal allowance taper zone — your effective marginal rate on some earnings is approximately 60%.';
+    }
+    html += '</div></div>';
+
+  } else if (num === 2) {
+    // Scenario A — 5% pension
+    label.textContent = 'Scenario A — Pension at 5%';
+    var diff = r5.takeHome - r0.takeHome;
+    var taxSaving = (r0.tax + r0.ni) - (r5.tax + r5.ni);
+
+    html += '<div style="margin-bottom:1rem">';
+    html += '<div style="font-size:1.5rem;font-weight:500;color:#1a1a1a;margin-bottom:4px">' + fmt(r5.takeHome/12) + '/month</div>';
+    html += '<div style="font-size:13px;color:#666">' + fmt(r5.takeHome) + '/year take-home</div>';
+    html += '</div>';
+
+    html += buildPopupRow('Gross salary', fmt(state.salary) + '/year');
+    html += buildPopupRow('Pension contribution', '5% (' + fmt(r5.pension) + '/year)');
+    html += buildPopupRow('Income tax', fmt(r5.tax) + '/year');
+    html += buildPopupRow('National Insurance', fmt(r5.ni) + '/year');
+    html += buildPopupRow('Estimated tax + NI saving', '~' + fmt(Math.max(0,taxSaving)) + '/year vs current');
+    html += buildPopupRow('Change in take-home', (diff >= 0 ? '+' : '') + fmt(diff) + '/year vs current');
+
+    html += '<div style="background:' + (taxSaving > 0 ? '#F0F9F6' : '#F5F5F5') + ';border-radius:10px;padding:1rem;margin-top:1rem">';
+    html += '<div style="font-size:12px;font-weight:500;color:' + (taxSaving > 0 ? '#0F6E56' : '#666') + ';margin-bottom:6px">What this means</div>';
+    html += '<div style="font-size:13px;color:' + (taxSaving > 0 ? '#085041' : '#444') + ';line-height:1.7">';
+
+    if (state.penType === 'sacrifice') {
+      html += 'A 5% salary sacrifice pension contribution of ' + fmt(r5.pension) + '/year reduces the income HMRC taxes you on. ';
+      html += 'This saves an estimated <strong>' + fmt(Math.max(0,taxSaving)) + '/year</strong> in tax and NI combined. ';
+      html += 'Your take-home reduces by ' + fmt(Math.abs(diff)) + '/year because ' + fmt(r5.pension) + ' goes into your pension — but HMRC effectively contributes ' + fmt(Math.max(0,taxSaving)) + ' of that for you through the tax saving.';
+    } else {
+      html += 'A 5% pension contribution of ' + fmt(r5.pension) + '/year. Under relief at source, your pension provider claims basic rate (20%) tax relief automatically. ';
+      if (r5.ani > 50270) {
+        html += 'As a higher rate taxpayer you may also be able to claim an additional 20% via Self Assessment — worth approximately ' + fmt(Math.round(r5.pension * 0.20)) + '/year extra.';
+      }
+    }
+
+    if (r0.ani > 100000 && r5.ani <= 100000) {
+      html += ' <strong>This pension contribution brings your estimated income below £100,000 — potentially exiting the personal allowance taper zone and recovering your full tax-free allowance.</strong>';
+    } else if (r5.ani > 100000 && r5.ani <= 125140) {
+      html += ' Your estimated income remains in the taper zone at ' + fmt(r5.ani) + '.';
+    }
+
+    html += '</div></div>';
+
+    html += '<button onclick="closeScenarioPopup();showModal();" style="width:100%;margin-top:1rem;padding:11px;background:#0F6E56;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">Model your exact pension % — Unlock Plus ↗</button>';
+  }
+
+  content.innerHTML = html;
+  popup.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function buildPopupRow(label, value) {
+  return '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:7px 0;border-bottom:1px solid #F0F0F0;gap:8px"><span style="font-size:12px;color:#666">' + label + '</span><span style="font-size:13px;font-weight:500;color:#1a1a1a;text-align:right">' + value + '</span></div>';
+}
+
+function closeScenarioPopup() {
+  document.getElementById('scenario-popup').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('click', function(e) {
+  var popup = document.getElementById('scenario-popup');
+  if (popup && popup.style.display === 'flex' && e.target === popup) {
+    closeScenarioPopup();
+  }
+});
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+document.getElementById('modal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+
+// ── INIT ──
+buildDots();
+updateProgress(1);
+</script>
+</body>
+</html>

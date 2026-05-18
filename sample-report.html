@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaxLens — Sample Tax-Awareness Report</title>
+<meta name="description" content="See what your personalised TaxLens tax-awareness report looks like. Real structure, illustrative numbers.">
+<link rel="canonical" href="https://taxlens.io/sample-report">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F6E56'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='15' font-weight='bold' fill='white' text-anchor='middle'%3ETL%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --t50:#E1F5EE;--t100:#9FE1CB;--t200:#5DCAA5;--t400:#1D9E75;--t600:#0F6E56;--t800:#085041;
+  --g50:#F8F9F8;--g100:#F0F0F0;--g200:#E0E0E0;--g400:#999;--g600:#666;--g800:#333;--g900:#1a1a1a;
+  --red:#E24B4A;--amber:#EF9F27;--white:#fff;--r:10px;--rlg:16px;
+}
+body{font-family:'DM Sans',sans-serif;color:var(--g900);background:var(--g50);font-size:15px;line-height:1.6;min-height:100vh}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.5rem;background:var(--white);border-bottom:1px solid var(--g200);position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-mark{width:28px;height:28px;background:var(--t600);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:700}
+.logo-text{font-size:15px;font-weight:500;color:var(--g900)}
+.nav-cta{font-size:13px;padding:7px 16px;background:var(--t600);color:#fff;border:none;border-radius:7px;cursor:pointer;font-family:inherit;font-weight:500;text-decoration:none;display:inline-block}
+.nav-cta:hover{background:var(--t800)}
+
+/* PAGE HEADER */
+.page-header{max-width:760px;margin:0 auto;padding:2.5rem 1.5rem 1.5rem;text-align:center}
+.sample-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:5px 12px;background:var(--amber);color:#fff;border-radius:999px;margin-bottom:1rem;letter-spacing:.03em}
+.page-header h1{font-family:'DM Serif Display',serif;font-size:2rem;font-weight:400;margin-bottom:.75rem;line-height:1.3}
+.page-header h1 em{font-style:italic;color:var(--t600)}
+.page-header p{font-size:14px;color:var(--g600);line-height:1.7;max-width:540px;margin:0 auto 1.5rem}
+.unlock-bar{background:var(--t600);color:#fff;border-radius:var(--rlg);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;max-width:760px;margin:0 auto 2rem}
+.unlock-bar p{font-size:13px;line-height:1.5;flex:1;min-width:200px}
+.unlock-bar p strong{display:block;font-size:15px;margin-bottom:2px}
+.unlock-btn{font-size:13px;padding:9px 20px;background:#fff;color:var(--t600);border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap;text-decoration:none}
+.unlock-btn:hover{background:var(--t50)}
+
+/* REPORT WRAPPER */
+.report-wrap{max-width:760px;margin:0 auto;padding:0 1.5rem 4rem}
+
+/* REPORT SECTIONS */
+.report-section{background:var(--white);border-radius:var(--rlg);border:1px solid var(--g200);margin-bottom:1rem;overflow:hidden}
+.report-section.blurred{position:relative}
+.section-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between}
+.section-num{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--g400)}
+.section-title{font-size:15px;font-weight:500;color:var(--g900);margin-top:2px}
+.section-body{padding:1.25rem 1.5rem}
+
+/* REPORT COVER */
+.report-cover{background:linear-gradient(135deg,var(--t800) 0%,var(--t600) 60%,var(--t400) 100%);color:#fff;border-radius:var(--rlg);padding:2rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.report-cover::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.06)}
+.report-cover::after{content:'';position:absolute;bottom:-60px;left:-20px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.04)}
+.cover-tag{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-bottom:.75rem}
+.cover-title{font-family:'DM Serif Display',serif;font-size:1.6rem;font-weight:400;line-height:1.3;margin-bottom:.5rem}
+.cover-sub{font-size:13px;opacity:.8;margin-bottom:1.5rem;line-height:1.6}
+.cover-meta{display:flex;flex-wrap:wrap;gap:.75rem}
+.cover-chip{font-size:12px;padding:4px 10px;background:rgba(255,255,255,.15);border-radius:999px;backdrop-filter:blur(4px)}
+.cover-disclaimer{font-size:11px;opacity:.6;margin-top:1.25rem;line-height:1.5;padding-top:1rem;border-top:1px solid rgba(255,255,255,.15)}
+
+/* SCORE SECTION */
+.score-row{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.score-circle{width:80px;height:80px;border-radius:50%;background:var(--t600);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.score-num{font-size:1.8rem;font-weight:500;line-height:1}
+.score-label{font-size:9px;letter-spacing:.05em;opacity:.8}
+.score-desc{flex:1}
+.score-title{font-size:15px;font-weight:500;color:var(--g900);margin-bottom:4px}
+.score-sub{font-size:13px;color:var(--g600);line-height:1.5}
+.score-breakdown{display:flex;flex-direction:column;gap:4px}
+.sb-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--g100);font-size:13px}
+.sb-row:last-child{border-bottom:none}
+.sb-label{color:var(--g600);flex:1;line-height:1.5}
+.sb-pts{font-weight:500;white-space:nowrap}
+.sb-pts.danger{color:#A32D2D}
+.sb-pts.warn{color:#854F0B}
+.sb-pts.good{color:var(--t600)}
+.sb-total{display:flex;align-items:center;justify-content:space-between;padding:8px 0;margin-top:4px;font-weight:500;font-size:14px}
+
+/* CHAIN */
+.chain-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--g100);font-size:13px}
+.chain-row:last-child{border-bottom:none}
+.chain-row.th-row{background:var(--t50);border-radius:8px;padding:10px 12px;margin-top:6px;border:none}
+.chain-lbl{color:var(--g600);flex:1;line-height:1.5}
+.chain-lbl strong{color:var(--g900);font-weight:500;display:block}
+.chain-lbl .csub{font-size:11px;color:var(--g400);display:block;margin-top:2px}
+.chain-lbl .cbands{font-size:11px;color:var(--g600);display:block;margin-top:4px;padding:5px 8px;background:rgba(0,0,0,.03);border-radius:6px;border-left:2px solid var(--g200);line-height:1.7}
+.chain-amt{font-weight:500;white-space:nowrap;text-align:right}
+.chain-amt.pos{color:var(--g900)}
+.chain-amt.ded{color:var(--red)}
+.chain-amt.pen{color:#1D9E75}
+.chain-amt.th{color:var(--t600);font-size:17px}
+.chain-section-lbl{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--g400);padding:10px 0 4px}
+
+/* TRAP */
+.trap-box{border-radius:var(--r);padding:1.25rem;margin-bottom:.875rem;border:1px solid}
+.trap-box.safe{background:var(--t50);border-color:var(--t100)}
+.trap-box.danger{background:#FCEBEB;border-color:#F7C1C1}
+.trap-box.warn{background:#FAEEDA;border-color:#FAC775}
+.tb-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.tb-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.trap-box.safe .tb-icon{background:var(--t100)}
+.trap-box.danger .tb-icon{background:#F09595}
+.trap-box.warn .tb-icon{background:#FAC775}
+.tb-title{font-size:14px;font-weight:500}
+.trap-box.safe .tb-title{color:var(--t800)}
+.trap-box.danger .tb-title{color:#791F1F}
+.trap-box.warn .tb-title{color:#633806}
+.tb-body{font-size:13px;line-height:1.65}
+.trap-box.safe .tb-body{color:var(--t800)}
+.trap-box.danger .tb-body{color:#791F1F}
+.trap-box.warn .tb-body{color:#633806}
+.trap-meter{height:8px;background:rgba(255,255,255,.5);border-radius:4px;overflow:hidden;margin-top:10px}
+.trap-meter-fill{height:8px;border-radius:4px}
+.trap-box.danger .trap-meter-fill{background:var(--red);width:52%}
+.trap-box.warn .trap-meter-fill{background:var(--amber);width:78%}
+
+/* SCENARIOS */
+.sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:500px){.sc-grid{grid-template-columns:1fr}}
+.sc-col{border:1px solid var(--g200);border-radius:10px;padding:.875rem}
+.sc-col.current{border-color:var(--t200);background:var(--t50)}
+.sc-col-label{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--g400);margin-bottom:5px}
+.sc-col.current .sc-col-label{color:var(--t600)}
+.sc-pension{font-size:12px;color:var(--g600);margin-bottom:5px}
+.sc-home{font-size:17px;font-weight:500;color:var(--g900)}
+.sc-col.current .sc-home{color:var(--t600)}
+.sc-tax{font-size:11px;color:var(--g400);margin-top:2px}
+.sc-diff{font-size:12px;font-weight:500;margin-top:5px;color:var(--t600)}
+
+/* QUESTIONS */
+.q-list{display:flex;flex-direction:column;gap:8px}
+.q-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--g50);border-radius:8px;border-left:3px solid var(--t400)}
+.q-num{font-size:11px;font-weight:500;color:var(--t600);flex-shrink:0;margin-top:2px;min-width:20px}
+.q-text{font-size:13px;color:var(--g800);line-height:1.6}
+
+/* CHECKLIST */
+.checklist{display:flex;flex-direction:column;gap:6px}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid var(--g200)}
+.cl-item.urgent{border-color:#FAC775;background:#FAEEDA}
+.cl-item.normal{border-color:var(--t100);background:var(--t50)}
+.cl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.cl-item.urgent .cl-dot{background:var(--amber)}
+.cl-item.normal .cl-dot{background:var(--t400)}
+.cl-content{flex:1}
+.cl-title{font-size:13px;font-weight:500;color:var(--g900);margin-bottom:2px}
+.cl-item.urgent .cl-title{color:#633806}
+.cl-desc{font-size:12px;color:var(--g600);line-height:1.5}
+.cl-item.urgent .cl-desc{color:#854F0B}
+.cl-badge{font-size:10px;padding:2px 7px;border-radius:999px;font-weight:500;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.cl-badge.time{background:var(--amber);color:#fff}
+.cl-badge.info{background:var(--t100);color:var(--t800)}
+
+/* BLUR OVERLAY */
+.blur-section{filter:blur(5px);user-select:none;pointer-events:none;opacity:.6}
+.lock-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:10;padding:1.5rem;text-align:center}
+.lock-icon{width:52px;height:52px;border-radius:50%;background:var(--t600);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 20px rgba(15,110,86,.3)}
+.lock-title{font-size:15px;font-weight:500;color:var(--g900)}
+.lock-sub{font-size:13px;color:var(--g600);line-height:1.5;max-width:280px}
+.lock-btn{font-size:13px;padding:10px 22px;background:var(--t600);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:500}
+.lock-btn:hover{background:var(--t800)}
+
+/* DISCLAIMER */
+.report-disclaimer{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:1rem 1.25rem;margin-top:1rem}
+.report-disclaimer p{font-size:11px;color:var(--g400);line-height:1.7}
+
+/* STAT ROWS */
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--g100);font-size:13px}
+.stat-row:last-child{border-bottom:none}
+.stat-label{color:var(--g600)}
+.stat-value{font-weight:500;color:var(--g900)}
+.stat-value.teal{color:var(--t600)}
+.stat-value.red{color:var(--red)}
+.stat-value.amber{color:var(--amber)}
+
+/* HERO STAT */
+.hero-stat{text-align:center;padding:1.25rem}
+.hs-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--g400);margin-bottom:6px}
+.hs-value{font-family:'DM Serif Display',serif;font-size:2.5rem;font-weight:400;color:var(--t600);line-height:1}
+.hs-sub{font-size:13px;color:var(--g600);margin-top:4px}
+.hero-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--g100)}
+.hero-stats-grid .hero-stat{background:var(--white)}
+
+/* PRO TIP */
+.pro-tip{background:var(--t50);border:1px solid var(--t100);border-radius:8px;padding:.875rem 1rem;margin-top:.875rem}
+.pro-tip-header{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.pro-tip-header span{font-size:11px;font-weight:500;color:var(--t600);letter-spacing:.04em;text-transform:uppercase}
+.pro-tip p{font-size:12px;color:var(--t800);line-height:1.7}
+
+@media(max-width:600px){
+  .report-wrap{padding:0 1rem 3rem}
+  .cover-title{font-size:1.3rem}
+  .hs-value{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="index.html">
+    <div class="logo-mark">TL</div>
+    <span class="logo-text">TaxLens</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+    <a href="index.html" style="font-size:13px;color:var(--g600);text-decoration:none">Home</a>
+    <a href="calculator.html" style="font-size:13px;color:var(--g600);text-decoration:none">Calculator</a>
+    <a href="calculator.html" class="nav-cta">Start your journey ↗</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="sample-badge">⚠ Sample report — numbers are illustrative only</div>
+  <h1>This is what your <em>personalised report</em> looks like</h1>
+  <p>The structure, insights and questions are real. The numbers are illustrative examples. Your report would show your actual figures based on your inputs — with the sensitive sections unlocked.</p>
+</div>
+
+<div class="unlock-bar" style="padding:1rem 1.5rem;margin:0 1.5rem 2rem;max-width:728px">
+  <p><strong>Get your personalised report — £19 one-off</strong>Your actual numbers, your specific gaps, your personalised accountant questions. Download and keep.</p>
+  <a href="calculator.html" class="unlock-btn">Start the journey ↗</a>
+</div>
+
+<div class="report-wrap">
+
+  <!-- COVER -->
+  <div class="report-cover">
+    <div class="cover-tag">TaxLens · Tax-Awareness Report · 2025/26</div>
+    <div class="cover-title">Your personalised tax-awareness briefing</div>
+    <div class="cover-sub">Based on your inputs and publicly available HMRC rules for the tax year 6 April 2025 to 5 April 2026. Educational simulation only — not financial advice.</div>
+    <div class="cover-meta">
+      <span class="cover-chip">PAYE employed</span>
+      <span class="cover-chip">England</span>
+      <span class="cover-chip">Higher rate taxpayer</span>
+      <span class="cover-chip">Salary sacrifice pension</span>
+      <span class="cover-chip">Generated May 2026</span>
+    </div>
+    <div class="cover-disclaimer">All figures in this report are illustrative estimates based on user-entered inputs. This report does not constitute financial, tax, investment or regulated advice. Individual circumstances vary. Before making financial decisions, speak to an FCA-authorised adviser or qualified tax professional. Operated by Jaydeep Karkare trading as TaxLens · taxlens.io</div>
+  </div>
+
+  <!-- SECTION 1 — SCORE -->
+  <div class="report-section">
+    <div class="section-header">
+      <div>
+        <div class="section-num">Section 1</div>
+        <div class="section-title">Your tax-awareness score</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="score-row">
+        <div class="score-circle">
+          <span class="score-num">68</span>
+          <span class="score-label">/ 100</span>
+        </div>
+        <div class="score-desc">
+          <div class="score-title">Several areas worth understanding</div>
+          <div class="score-sub">2 gaps identified from your inputs. See the breakdown below for exactly what drove your score and why each one matters.</div>
+        </div>
+      </div>
+      <div class="score-breakdown">
+        <div class="sb-row"><span class="sb-label">Starting score</span><span class="sb-pts good">100 pts</span></div>
+        <div class="sb-row"><span class="sb-label">In the personal allowance taper zone with no pension contribution reducing adjusted net income — effective marginal rate approximately 60%</span><span class="sb-pts danger">−25 pts</span></div>
+        <div class="sb-row"><span class="sb-label">Relief at source pension — additional 20% higher rate relief must be claimed separately via Self Assessment and is commonly missed</span><span class="sb-pts warn">−7 pts</span></div>
+        <div class="sb-total"><span>Your score</span><span style="color:var(--amber);font-size:17px">68 / 100</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — CALCULATION CHAIN -->
+  <div class="report-section">
+    <div class="section-header">
+      <div>
+        <div class="section-num">Section 2</div>
+        <div class="section-title">How your take-home pay is calculated</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="chain-section-lbl">Starting point</div>
+      <div class="chain-row">
+        <div class="chain-lbl"><strong>Gross salary</strong><span class="csub">Your full salary before anything is taken out</span></div>
+        <div class="chain-amt pos">£██,000/yr</div>
+      </div>
+
+      <div class="chain-section-lbl">Pension contribution</div>
+      <div class="chain-row">
+        <div class="chain-lbl"><strong>Pension — salary sacrifice (█%)</strong><span class="csub">Reduces the income HMRC taxes you on — saves tax and National Insurance on this amount</span></div>
+        <div class="chain-amt pen">− £█,███/yr</div>
+      </div>
+      <div class="chain-row">
+        <div class="chain-lbl"><strong>Taxable income after pension</strong><span class="csub">HMRC calculates your tax on this lower amount</span></div>
+        <div class="chain-amt pos">£██,███/yr</div>
+      </div>
+
+      <div class="chain-section-lbl">Tax-free allowance</div>
+      <div class="chain-row">
+        <div class="chain-lbl"><strong>Personal allowance</strong><span class="csub">Everyone in the UK gets this amount completely tax-free each year</span></div>
+        <div class="chain-amt pen">£█,███ tax-free</div>
+      </div>
+      <div class="chain-row">
+        <div class="chain-lbl"><strong>Income tax is calculated on</strong><span class="csub">Total income minus your tax-free allowance</span></div>
+        <div class="chain-amt pos">£██,███/yr</div>
+      </div>
+
+      <div class="chain-section-lbl">Income tax breakdown</div>
+      <div class="chain-row">
+        <div class="chain-lbl"><strong>Income tax — total: £██,███</strong><span class="csub">Calculated in bands — you only pay the higher rate on the portion of income in that band</span><span class="cbands">Basic rate (20%): £██,███ taxed → £█,███<br>Higher rate (40%): £██,███ taxed → £██,███</span></div>
+        <div class="chain-amt ded">− £██,███/yr</div>
+      </div>
+
+      <div class="chain-section-lbl">National Insurance</div>
+      <div class="chain-row">
+        <div class="chain-lbl"><strong>National Insurance — total: £█,███</strong><span class="csub">Calculated on your gross salary. Funds your State Pension and NHS entitlement.</span><span class="cbands">Main rate (8%): on £██,███ → £█,███<br>Upper rate (2%): on £█,███ → £███</span></div>
+        <div class="chain-amt ded">− £█,███/yr</div>
+      </div>
+
+      <div class="chain-row th-row">
+        <div class="chain-lbl"><strong>Estimated take-home pay</strong><span class="csub">What lands in your bank account each month after all deductions</span></div>
+        <div class="chain-amt th">£█,███/mo</div>
+      </div>
+      <div style="font-size:12px;color:var(--g400);padding:8px 0;line-height:1.6">£██,███/year · effective rate ██.█% · you keep ██% of your gross salary</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — TRAP -->
+  <div class="report-section">
+    <div class="section-header">
+      <div>
+        <div class="section-num">Section 3</div>
+        <div class="section-title">Personal allowance trap exposure</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="trap-box danger">
+        <div class="tb-header">
+          <div class="tb-icon">⚠</div>
+          <div class="tb-title">You are in the personal allowance taper zone</div>
+        </div>
+        <div class="tb-body">In the UK, everyone gets a tax-free allowance of £12,570. But once your income goes above £100,000, HMRC gradually takes that allowance away. Based on your inputs, your estimated income is <strong>£██,███</strong> — placing you <strong>£██,███</strong> into the taper zone. Your tax-free allowance has shrunk from £12,570 to just <strong>£█,███</strong>. You are effectively paying around <strong>60p in tax for every extra £1</strong> earned in this range.</div>
+        <div class="trap-meter"><div class="trap-meter-fill"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#A32D2D;margin-top:4px"><span>£100,000</span><span>£125,140</span></div>
+      </div>
+      <div class="pro-tip">
+        <div class="pro-tip-header"><span>⭐ Pro tip</span></div>
+        <p>Most people only think about the 40% tax saving on pension contributions. But if contributing brings your adjusted net income below £100,000, you also recover your personal allowance — worth an additional estimated £5,028 in tax savings. A £██,███ pension contribution in your situation could be worth up to <strong>£█,███ in total estimated tax savings</strong> — not just the 40% many people assume.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — SCENARIOS (partial blur) -->
+  <div class="report-section blurred" style="position:relative">
+    <div class="section-header">
+      <div>
+        <div class="section-num">Section 4</div>
+        <div class="section-title">Illustrative pension scenarios</div>
+      </div>
+    </div>
+    <div class="section-body blur-section">
+      <div class="sc-grid">
+        <div class="sc-col current">
+          <div class="sc-col-label">Your position</div>
+          <div class="sc-pension">Pension: █%</div>
+          <div class="sc-home">£█,███/mo</div>
+          <div class="sc-tax">Tax + NI: £██,███/yr</div>
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-label">Scenario A</div>
+          <div class="sc-pension">Pension: 10%</div>
+          <div class="sc-home">£█,███/mo</div>
+          <div class="sc-tax">Tax + NI: £██,███/yr</div>
+          <div class="sc-diff">+£█,███/yr vs current</div>
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-label">Scenario B</div>
+          <div class="sc-pension">Pension: 15%</div>
+          <div class="sc-home">£█,███/mo</div>
+          <div class="sc-tax">Tax + NI: £██,███/yr</div>
+          <div class="sc-diff">+£█,███/yr vs current</div>
+        </div>
+      </div>
+      <div style="background:var(--g50);border-radius:10px;padding:1rem;font-size:13px;color:var(--g600)">Scenario B shows a pension contribution that exits the personal allowance taper zone entirely — recovering the full personal allowance and reducing the effective marginal rate from 60% to 40%.</div>
+    </div>
+    <div class="lock-overlay">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">Unlock your scenario explorer</div>
+      <div class="lock-sub">See your actual pension scenarios with your real numbers — including custom percentages, bonus sacrifice and Gift Aid impact.</div>
+      <a href="calculator.html" class="lock-btn">Start the journey — it's free ↗</a>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — ACCOUNTANT QUESTIONS (blurred) -->
+  <div class="report-section blurred" style="position:relative">
+    <div class="section-header">
+      <div>
+        <div class="section-num">Section 5</div>
+        <div class="section-title">Questions to ask your accountant</div>
+      </div>
+    </div>
+    <div class="section-body blur-section">
+      <p style="font-size:13px;color:var(--g600);margin-bottom:1rem;line-height:1.6">Based on your inputs, these are the specific questions worth raising at your next accountant or HR meeting. Walking in with these questions saves time and gets better outcomes.</p>
+      <div class="q-list">
+        <div class="q-item"><span class="q-num">1</span><span class="q-text">What is my adjusted net income for 2025/26 including all income sources — and am I correctly in or approaching the personal allowance taper zone?</span></div>
+        <div class="q-item"><span class="q-num">2</span><span class="q-text">What pension contribution would bring my adjusted net income below £100,000 — and does my employer offer salary sacrifice?</span></div>
+        <div class="q-item"><span class="q-num">3</span><span class="q-text">Am I claiming full 40% higher rate pension relief on my Self Assessment return, or only the 20% applied automatically?</span></div>
+        <div class="q-item"><span class="q-num">4</span><span class="q-text">Would my employer pass back some of their National Insurance saving if I increased my salary sacrifice pension contribution?</span></div>
+        <div class="q-item"><span class="q-num">5</span><span class="q-text">Should I be sacrificing my bonus into my pension this year given my income level and trap position?</span></div>
+        <div class="q-item"><span class="q-num">6</span><span class="q-text">Are there Gift Aid donations I could make before April 5th to further reduce my adjusted net income?</span></div>
+        <div class="q-item"><span class="q-num">7</span><span class="q-text">Is my Self Assessment tax return correctly filed for 2024/25 — and am I registered given my income exceeds £100,000?</span></div>
+      </div>
+    </div>
+    <div class="lock-overlay">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">Your personalised accountant questions</div>
+      <div class="lock-sub">Generated specifically from your inputs. Walk into your next meeting with the right questions already prepared.</div>
+      <a href="calculator.html" class="lock-btn">Start the journey ↗</a>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — CHECKLIST (blurred) -->
+  <div class="report-section blurred" style="position:relative">
+    <div class="section-header">
+      <div>
+        <div class="section-num">Section 6</div>
+        <div class="section-title">Your year-end action checklist</div>
+      </div>
+    </div>
+    <div class="section-body blur-section">
+      <p style="font-size:13px;color:var(--g600);margin-bottom:1rem">Time-sensitive actions personalised to your situation before April 5th.</p>
+      <div class="checklist">
+        <div class="cl-item urgent">
+          <div class="cl-dot"></div>
+          <div class="cl-content">
+            <div class="cl-title">Review pension contribution before April 5th</div>
+            <div class="cl-desc">Based on your inputs, an additional £██,███ pension contribution could bring your adjusted net income below £100,000 — potentially recovering your full personal allowance.</div>
+          </div>
+          <span class="cl-badge time">Time-sensitive</span>
+        </div>
+        <div class="cl-item urgent">
+          <div class="cl-dot"></div>
+          <div class="cl-content">
+            <div class="cl-title">ISA allowance — £██,███ remaining</div>
+            <div class="cl-desc">Your estimated unused ISA allowance for 2025/26. Resets to £20,000 on April 6th — unused allowance cannot be carried forward.</div>
+          </div>
+          <span class="cl-badge time">April 5th</span>
+        </div>
+        <div class="cl-item normal">
+          <div class="cl-dot"></div>
+          <div class="cl-content">
+            <div class="cl-title">Check Self Assessment registration</div>
+            <div class="cl-desc">With income above £100,000 you are required to file a Self Assessment tax return. Confirm you are registered at gov.uk/register-for-self-assessment.</div>
+          </div>
+          <span class="cl-badge info">Action needed</span>
+        </div>
+        <div class="cl-item normal">
+          <div class="cl-dot"></div>
+          <div class="cl-content">
+            <div class="cl-title">Claim higher rate pension relief</div>
+            <div class="cl-desc">If your pension uses relief at source, the additional 20% higher rate relief must be claimed via Self Assessment. This is commonly unclaimed.</div>
+          </div>
+          <span class="cl-badge info">Worth checking</span>
+        </div>
+      </div>
+    </div>
+    <div class="lock-overlay">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">Your personalised year-end checklist</div>
+      <div class="lock-sub">Specific actions and deadlines based on your situation — not a generic list.</div>
+      <a href="calculator.html" class="lock-btn">Start the journey ↗</a>
+    </div>
+  </div>
+
+  <!-- SECTION 7 — WHAT TO DO NEXT -->
+  <div class="report-section">
+    <div class="section-header">
+      <div>
+        <div class="section-num">Section 7</div>
+        <div class="section-title">What to do next</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="checklist">
+        <div class="cl-item normal">
+          <div class="cl-dot"></div>
+          <div class="cl-content">
+            <div class="cl-title">Check your NI record and State Pension forecast</div>
+            <div class="cl-desc">Log into your HMRC Personal Tax Account at gov.uk/personal-tax-account. Under National Insurance you can see your qualifying years, any gaps, and your current State Pension forecast.</div>
+          </div>
+        </div>
+        <div class="cl-item normal">
+          <div class="cl-dot"></div>
+          <div class="cl-content">
+            <div class="cl-title">Speak to your HR or payroll team about pension options</div>
+            <div class="cl-desc">Ask whether salary sacrifice is available, whether your employer passes back employer NI savings, and what your current pension arrangement type is.</div>
+          </div>
+        </div>
+        <div class="cl-item normal">
+          <div class="cl-dot"></div>
+          <div class="cl-content">
+            <div class="cl-title">Consider speaking to a qualified tax adviser</div>
+            <div class="cl-desc">Given your income level and trap exposure, a one-off conversation with a qualified accountant or tax adviser could be valuable. Use the questions in Section 5 as your starting point.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="report-disclaimer">
+    <p><strong>Important — please read.</strong> This report is an educational simulation produced by TaxLens based on user-entered inputs and publicly available HMRC tax rules for the 2025/26 tax year (6 April 2025 to 5 April 2026). All figures are illustrative estimates only. This report does not constitute financial advice, tax advice, investment advice, or any regulated service under the Financial Services and Markets Act 2000. TaxLens is not authorised or regulated by the Financial Conduct Authority. Individual tax positions depend on personal circumstances not captured in this simulation including other income sources, allowable deductions, prior year adjustments, benefits in kind, and more. Before making any financial decisions based on this report, we strongly recommend speaking to an FCA-authorised financial adviser or a qualified tax professional. Operated by Jaydeep Karkare trading as TaxLens · taxlens.io · privacy@taxlens.io</p>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div style="background:var(--t600);border-radius:var(--rlg);padding:1.5rem;text-align:center;margin-top:1.5rem;color:#fff">
+    <div style="font-family:'DM Serif Display',serif;font-size:1.4rem;font-weight:400;margin-bottom:8px">Ready to see your real numbers?</div>
+    <p style="font-size:13px;opacity:.85;margin-bottom:1.25rem;line-height:1.6">Complete the seven-step guided journey and unlock your personalised report — with your actual figures, your specific gaps, and your personalised accountant questions.</p>
+    <a href="calculator.html" style="display:inline-block;padding:11px 28px;background:#fff;color:var(--t600);border-radius:8px;font-size:14px;font-weight:500;text-decoration:none">Start your journey — it's free ↗</a>
+    <p style="font-size:11px;opacity:.6;margin-top:.75rem">Takes about 3 minutes · No account required · Not financial advice</p>
+  </div>
+
+</div>
+</body>
+</html>
